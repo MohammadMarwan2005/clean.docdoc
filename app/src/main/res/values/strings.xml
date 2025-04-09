@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Clean DocDoc</string>
+    <string name="docdoc_again_but_clean">DocDoc again, but clean!</string>
+    <string name="no_internet_connection">No Internet Connection!</string>
+    <string name="unauthorized_error">Unauthorized!</string>
+    <string name="unknown_error">Unknown Error!</string>
 </resources>
