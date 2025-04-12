@@ -1,4 +1,4 @@
-package com.alaishat.mohammad.clean.docdoc.ui.theme
+package com.alaishat.mohammad.clean.docdoc.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

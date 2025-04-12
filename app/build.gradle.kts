@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.devtools.ksp)
+    alias(libs.plugins.dagger.hilt)
 }
 
 android {
@@ -18,13 +21,25 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+//    buildTypes {
+//        release {
+//            isMinifyEnabled = false
+//            proguardFiles(
+//                getDefaultProguardFile("proguard-android-optimize.txt"),
+//                "proguard-rules.pro"
+//            )
+//        }
+//    }
     buildTypes {
-        release {
+        val productionBaseUrl = "\"https://vcare.integration25.com/api/\""
+        debug {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            buildConfigField("String", "API_BASE_URL", productionBaseUrl)
+        }
+        release {
+            isMinifyEnabled = false // note that Proguard is disabled
+            buildConfigField("String", "API_BASE_URL", productionBaseUrl)
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
@@ -36,6 +51,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -56,4 +72,17 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.retrofit)
+    implementation(libs.logging.interceptor)
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.navigation.compose)
+//    implementation(libs.converter.gson)
+    implementation(libs.coil.compose)
+    implementation(libs.material3)
+    implementation(kotlin("reflect"))
+
 }
