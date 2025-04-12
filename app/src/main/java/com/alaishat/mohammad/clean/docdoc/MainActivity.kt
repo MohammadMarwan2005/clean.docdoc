@@ -6,7 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.main.MainScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.theme.CleanDocDocTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -80,7 +80,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)
-//    implementation(libs.converter.gson)
+    implementation(libs.converter.gson)
     implementation(libs.coil.compose)
     implementation(libs.material3)
     implementation(kotlin("reflect"))

@@ -1,4 +1,4 @@
-package com.alaishat.mohammad.clean.docdoc.domain.model
+package com.alaishat.mohammad.clean.docdoc.domain.model.core
 
 /**
  * Created by Mohammad Al-Aishat on Apr/09/2025.

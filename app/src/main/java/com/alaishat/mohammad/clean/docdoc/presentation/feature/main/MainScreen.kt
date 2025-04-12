@@ -13,10 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.register.AuthViewModel
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.register.TestRegisterScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.navigation.NavigationRoute
 
 /**
@@ -26,26 +29,29 @@ import com.alaishat.mohammad.clean.docdoc.presentation.navigation.NavigationRout
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-    val hasBottomAppBar = navController.currentBackStackEntryAsState().value?.destination?.route?.let { currentRoute ->
-        NavigationRoute.fromRoute(currentRoute)?.hasBottomNavBar == true
-    } == true
+    val hasBottomAppBar =
+        navController.currentBackStackEntryAsState().value?.destination?.route?.let { currentRoute ->
+            NavigationRoute.fromRoute(currentRoute)?.hasBottomNavBar == true
+        } == true
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             if (hasBottomAppBar) {
                 // todo: bottom app bar
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .background(Color.Cyan))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .background(Color.Cyan)
+                )
             }
         }
     ) { innerPadding ->
         NavHost(
             modifier = Modifier.padding(innerPadding),
             navController = navController,
-            startDestination = NavigationRoute.LoginRoute
+            startDestination = NavigationRoute.RegisterRoute
         ) {
             composable<NavigationRoute.HomeRoute> {
                 Button(onClick = {
@@ -64,6 +70,9 @@ fun MainScreen() {
                 }) {
                     Text("Go to home")
                 }
+            }
+            composable<NavigationRoute.RegisterRoute> {
+                TestRegisterScreen()
             }
         }
     }
