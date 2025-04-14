@@ -85,7 +85,7 @@ fun MainScreen(
                     composable<NavigationRoute.OnboardingRoute> {
                         OnboardingScreen(
                             navigateToRegister = {
-                                navController.pushReplacement(NavigationRoute.RegisterRoute)
+                                navController.navigateToRoute(NavigationRoute.RegisterRoute)
                             }
                         )
                     }
