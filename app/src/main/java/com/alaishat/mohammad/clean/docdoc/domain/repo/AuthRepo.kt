@@ -15,4 +15,9 @@ interface AuthRepo {
         password: String,
         passwordConfirmation: String,
     ): Resource<UserAuthData>
+
+    suspend fun login(
+        email: String,
+        password: String,
+    ): Resource<UserAuthData>
 }

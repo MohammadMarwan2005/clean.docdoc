@@ -84,5 +84,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.material3)
     implementation(kotlin("reflect"))
+    implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation(libs.androidx.datastore.preferences)
 
 }

@@ -1,6 +1,7 @@
 package com.alaishat.mohammad.clean.docdoc.data
 
 import com.alaishat.mohammad.clean.docdoc.data.model.AuthResponse
+import com.alaishat.mohammad.clean.docdoc.data.model.LoginRequest
 import com.alaishat.mohammad.clean.docdoc.data.model.RegisterRequest
 import retrofit2.Response
 import retrofit2.http.Body
@@ -15,6 +16,11 @@ interface APIService {
     @POST("auth/register")
     suspend fun register(
         @Body registerRequest: RegisterRequest
+    ) : Response<AuthResponse>
+
+    @POST("auth/login")
+    suspend fun login(
+        @Body loginResponse: LoginRequest
     ) : Response<AuthResponse>
 
 }

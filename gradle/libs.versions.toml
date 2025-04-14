@@ -18,6 +18,7 @@ hiltNavigationCompose = "1.2.0"
 navigationCompose = "2.8.9"
 coilCompose = "2.6.0"
 converterGson = "2.8.0"
+datastorePreferences = "1.1.1"
 
 
 [libraries]
@@ -45,7 +46,7 @@ androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-com
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
-
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 
 
 

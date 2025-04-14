@@ -3,6 +3,7 @@ package com.alaishat.mohammad.clean.docdoc.data.repo
 import com.alaishat.mohammad.clean.docdoc.data.APIService
 import com.alaishat.mohammad.clean.docdoc.data.SafeAPICaller
 import com.alaishat.mohammad.clean.docdoc.data.model.AuthResponse
+import com.alaishat.mohammad.clean.docdoc.data.model.LoginRequest
 import com.alaishat.mohammad.clean.docdoc.data.model.RegisterRequest
 import com.alaishat.mohammad.clean.docdoc.domain.Resource
 import com.alaishat.mohammad.clean.docdoc.domain.model.UserAuthData
@@ -26,7 +27,30 @@ class AuthRepoImpl(
         return safeAPICaller.invoke<AuthResponse, UserAuthData>(
             apiCall = {
                 apiService.register(
-                    RegisterRequest(name = name, email = email, phone = phone, password = password, passwordConfirmation = passwordConfirmation, gender = "0")
+                    RegisterRequest(
+                        name = name,
+                        email = email,
+                        phone = phone,
+                        password = password,
+                        passwordConfirmation = passwordConfirmation,
+                        gender = "0"
+                    )
+                )
+            },
+            dataToDomain = {
+                it.authData.toUserAuthData()
+            },
+        )
+    }
+
+    override suspend fun login(
+        email: String,
+        password: String
+    ): Resource<UserAuthData> {
+        return safeAPICaller.invoke<AuthResponse, UserAuthData>(
+            apiCall = {
+                apiService.login(
+                    LoginRequest(email = email, password = password)
                 )
             },
             dataToDomain = {

@@ -74,4 +74,10 @@ sealed class NavigationRoute(val hasBottomNavBar: Boolean = false) {
 
     @Serializable
     data object RegisterRoute : NavigationRoute()
+
+    @Serializable
+    data object AuthRoute : NavigationRoute()
+
+    @Serializable
+    data object OnboardingRoute : NavigationRoute()
 }
