@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -25,7 +27,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,7 +49,6 @@ import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.DoctorCar
 import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.ErrorComposable
 import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.MyRefreshIndicator
 import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.TitleWithSeeAllTextButtonRow
-import com.alaishat.mohammad.clean.docdoc.presentation.theme.BottomNavBarContainerColor
 import com.alaishat.mohammad.clean.docdoc.presentation.theme.CleanDocdocTheme
 import com.alaishat.mohammad.clean.docdoc.presentation.theme.Seed
 
@@ -123,20 +123,17 @@ fun HomeScreen(
                                 cardPortion,
                                 onFindNearbyClick = navigateToSearch
                             )
-                            Spacer(modifier = Modifier.height(24.dp))
+                            Spacer(modifier = Modifier.height(16.dp))
                         }
+
                         stickyHeader(key = "TitleWithSeeAllTextButtonRow") {
                             TitleWithSeeAllTextButtonRow(title = stringResource(R.string.recommended_doctors))
                         }
-                        item {
-                            Spacer(modifier = Modifier.height(8.dp))
-                            RecommendedCategorizedDoctors(
-                                navigateToDoctor = {
 
-                                },
-                                data = successState.recommendations
-                            )
-                        }
+                        recommendedCategorizedDoctors(
+                            navigateToDoctor = { /* TODO */ },
+                            data = successState.recommendations
+                        )
                     }
                 }
             }
@@ -249,48 +246,43 @@ fun HomeBannerWithAnImage(
 }
 
 
-@Composable
-fun RecommendedCategorizedDoctors(
+fun LazyListScope.recommendedCategorizedDoctors(
     navigateToDoctor: (doctorId: Int) -> Unit,
     data: Map<Specialization, List<Doctor>>,
 ) {
-    Column {
-        data.forEach { data ->
+    data.forEach { data ->
+        item {
             Text(
                 modifier = Modifier.padding(top = 4.dp),
                 text = data.key.name,
                 style = MaterialTheme.typography.titleMedium
             )
             Spacer(modifier = Modifier.height(8.dp))
-            RecommendedDoctorRow(
-                doctorsData = data.value,
-                onClick = { doctorId ->
-                    navigateToDoctor(doctorId)
-                })
         }
+        recommendedDoctorRow(
+            doctorsData = data.value,
+            onClick = { doctorId ->
+                navigateToDoctor(doctorId)
+            })
     }
 }
 
-@Composable
-fun RecommendedDoctorRow(
+fun LazyListScope.recommendedDoctorRow(
     doctorsData: List<Doctor> = emptyList(),
     onClick: (doctorId: Int) -> Unit,
 ) {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-    ) {
-        for (doctor in doctorsData) {
-            DoctorCard(
-                name = doctor.name,
-                specialization = doctor.specialization.name,
-                city = doctor.city.name,
-                model = doctor.photo,
-                degree = doctor.degree,
-                phone = doctor.phone,
-                onClick = {
-                    onClick(doctor.id)
-                }
-            )
-        }
+    itemsIndexed(doctorsData) { index, doctor ->
+        DoctorCard(
+            name = doctor.name,
+            specialization = doctor.specialization.name,
+            city = doctor.city.name,
+            model = doctor.photo,
+            degree = doctor.degree,
+            phone = doctor.phone,
+            onClick = {
+                onClick(doctor.id)
+            }
+        )
+
     }
 }
