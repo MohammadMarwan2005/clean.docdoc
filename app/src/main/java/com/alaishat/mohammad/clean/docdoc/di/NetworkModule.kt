@@ -3,16 +3,15 @@ package com.alaishat.mohammad.clean.docdoc.di
 import com.alaishat.mohammad.clean.docdoc.BuildConfig
 import com.alaishat.mohammad.clean.docdoc.data.APIService
 import com.alaishat.mohammad.clean.docdoc.data.ErrorHandlerImpl
+import com.alaishat.mohammad.clean.docdoc.data.RequestInterceptor
 import com.alaishat.mohammad.clean.docdoc.data.SafeAPICaller
 import com.alaishat.mohammad.clean.docdoc.domain.ErrorHandler
+import com.alaishat.mohammad.clean.docdoc.domain.repo.UserLocalDataRepo
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -40,14 +39,13 @@ object NetworkModule {
     @Singleton
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
-//        requestInterceptor: RequestInterceptor,
-//        tokenAuthenticator: TokenAuthenticator,
+        requestInterceptor: RequestInterceptor,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .readTimeout(25, TimeUnit.SECONDS)
             .connectTimeout(25, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
-//            .addInterceptor(requestInterceptor)
+            .addInterceptor(requestInterceptor)
             .build()
     }
 
@@ -69,13 +67,13 @@ object NetworkModule {
         return retrofit.create(APIService::class.java)
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideRequestInterceptor(
-//        userLocalDataRepo: UserLocalDataRepo,
-//    ): RequestInterceptor {
-//        return RequestInterceptor(userLocalDataRepo = userLocalDataRepo)
-//    }
+    @Provides
+    @Singleton
+    fun provideRequestInterceptor(
+        userLocalDataRepo: UserLocalDataRepo,
+    ): RequestInterceptor {
+        return RequestInterceptor(userLocalDataRepo = userLocalDataRepo)
+    }
 
 //    @Provides
 //    @Singleton

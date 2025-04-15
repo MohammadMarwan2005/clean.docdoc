@@ -5,6 +5,7 @@ import com.alaishat.mohammad.clean.docdoc.presentation.common.StateDelegate
 import com.alaishat.mohammad.clean.docdoc.presentation.common.StringValidationManager
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.AuthEvent
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.AuthUIState
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.home.HomeUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.main.MainUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.onboarding.OnboardingEvent
 import dagger.Module
@@ -27,6 +28,10 @@ object PresentationModule {
     @Provides
     @Singleton
     fun provideMainStateDelegate(): StateDelegate<MainUIState> = StateDelegate()
+
+    @Provides
+    @Singleton
+    fun provideHomeStateDelegate(): StateDelegate<HomeUIState> = StateDelegate()
 
     @Provides
     @Singleton

@@ -89,6 +89,7 @@ class AuthViewModel @Inject constructor(
             is Resource.Success -> {
                 viewModelScope.launch {
                     userLocalDataRepo.saveToken(response.data.token)
+                    userLocalDataRepo.saveUsername(response.data.username)
                     stateDelegate.updateState { AuthUIState.Success(response.data) }
                     eventDelegate.sendEvent(
                         scope = viewModelScope,

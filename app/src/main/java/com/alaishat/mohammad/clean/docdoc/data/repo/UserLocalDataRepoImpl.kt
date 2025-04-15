@@ -8,13 +8,9 @@ import com.alaishat.mohammad.clean.docdoc.domain.repo.UserLocalDataRepo
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
-import javax.inject.Singleton
 
 /**
  * Created by Mohammad Al-Aishat on Apr/13/2025.
@@ -22,6 +18,7 @@ import javax.inject.Singleton
  */
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_data")
 private val ACCESS_TOKEN_KEY = stringPreferencesKey("access_token")
+private val USERNAME_KEY = stringPreferencesKey("username")
 private val HAS_ONBOARDED_KEY = booleanPreferencesKey("has_onboarded")
 
 class UserLocalDataRepoImpl(
@@ -32,11 +29,19 @@ class UserLocalDataRepoImpl(
     }
 
     override suspend fun getTokenAsString(): String? {
-        return context.dataStore.data.firstOrNull()?.get(ACCESS_TOKEN_KEY)
+        return getSavedString(ACCESS_TOKEN_KEY)
+    }
+
+    override suspend fun saveUsername(username: String) {
+        saveString(username, USERNAME_KEY)
+    }
+
+    override suspend fun getUsernameAsString(): String? {
+        return getSavedString(USERNAME_KEY)
     }
 
     override suspend fun saveToken(token: String) {
-        context.dataStore.edit { it[ACCESS_TOKEN_KEY] = token }
+        saveString(token, ACCESS_TOKEN_KEY)
     }
 
     override suspend fun setOnboarded() {
@@ -45,5 +50,13 @@ class UserLocalDataRepoImpl(
 
     override suspend fun getHasOnboarded(): Boolean? {
         return context.dataStore.data.firstOrNull()?.get(HAS_ONBOARDED_KEY)
+    }
+
+    private suspend fun saveString(value: String, key: Preferences.Key<String>) {
+        context.dataStore.edit { it[key] = value }
+    }
+
+    private suspend fun getSavedString(key: Preferences.Key<String>): String? {
+        return context.dataStore.data.firstOrNull()?.get(key)
     }
 }

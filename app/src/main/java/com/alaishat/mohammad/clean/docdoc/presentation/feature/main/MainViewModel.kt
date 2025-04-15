@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 /**
  * Created by Mohammad Al-Aishat on Apr/12/2025.
  * Clean DocDoc Project.
@@ -32,23 +33,29 @@ class MainViewModel @Inject constructor(
                 val savedToken: String? = userLocalDataRepo.getTokenAsString()
                 if (savedToken != null) {
                     // go to Home
-                    stateDelegate.updateState { MainUIState.Success(
-                        wholeGraphFirstRoute = NavigationRoute.HomeRoute,
-                        authGraphFirstRoute = NavigationRoute.RegisterRoute
-                    ) }
+                    stateDelegate.updateState {
+                        MainUIState.Success(
+                            wholeGraphFirstRoute = NavigationRoute.HomeRoute,
+                            authGraphFirstRoute = NavigationRoute.RegisterRoute
+                        )
+                    }
                 } else {
                     // go to Login
-                    stateDelegate.updateState { MainUIState.Success(
-                        wholeGraphFirstRoute = NavigationRoute.AuthRoute,
-                        authGraphFirstRoute = NavigationRoute.LoginRoute
-                    ) }
+                    stateDelegate.updateState {
+                        MainUIState.Success(
+                            wholeGraphFirstRoute = NavigationRoute.AuthRoute,
+                            authGraphFirstRoute = NavigationRoute.LoginRoute
+                        )
+                    }
                 }
             } else {
                 // go to onboarding screen:
-                stateDelegate.updateState { MainUIState.Success(
-                    wholeGraphFirstRoute = NavigationRoute.OnboardingRoute,
-                    authGraphFirstRoute = NavigationRoute.RegisterRoute
-                ) }
+                stateDelegate.updateState {
+                    MainUIState.Success(
+                        wholeGraphFirstRoute = NavigationRoute.OnboardingRoute,
+                        authGraphFirstRoute = NavigationRoute.RegisterRoute
+                    )
+                }
             }
         }
     }

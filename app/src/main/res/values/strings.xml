@@ -67,6 +67,7 @@
     <string name="all">All</string>
     <string name="founds">%1$s Founds</string>
     <string name="welcome_book_and_schedule_with_nearest_doctor">Welcome %1$s, Book and schedule with nearest doctor</string>
+    <string name="guest_welcome_book_and_schedule_with_nearest_doctor">Welcome, Book and schedule with nearest doctor</string>
     <string name="recommended_doctors">Recommended Doctors</string>
     <string name="profile">Profile</string>
     <string name="are_you_sure_you_want_to_log_out">Are you sure you want to log out?</string>
@@ -74,7 +75,7 @@
     <string name="no_stay_logged_in">No, stay logged in</string>
     <string name="logout">Logout</string>
     <string name="home">Home</string>
-    <string name="specializations">Specializations</string>
+    <string name="specializations">Specialty</string>
     <string name="appointments">Appointments</string>
     <string name="my_profile">My Profile</string>
     <string name="wrong_credentials">Wrong Credentials</string>

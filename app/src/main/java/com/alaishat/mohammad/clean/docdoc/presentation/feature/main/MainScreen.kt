@@ -1,19 +1,23 @@
 package com.alaishat.mohammad.clean.docdoc.presentation.feature.main
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -23,8 +27,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.alaishat.mohammad.clean.docdoc.R
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.login.LoginScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.register.RegisterScreen
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.home.HomeScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.onboarding.OnboardingScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.navigation.NavigationRoute
 import com.alaishat.mohammad.clean.docdoc.presentation.navigation.getAuthSharedViewModel
@@ -32,6 +38,8 @@ import com.alaishat.mohammad.clean.docdoc.presentation.navigation.navigateFromLo
 import com.alaishat.mohammad.clean.docdoc.presentation.navigation.navigateFromRegisterToLogin
 import com.alaishat.mohammad.clean.docdoc.presentation.navigation.navigateToRoute
 import com.alaishat.mohammad.clean.docdoc.presentation.navigation.pushReplacement
+import com.alaishat.mohammad.clean.docdoc.presentation.theme.DarkSeed
+import com.alaishat.mohammad.clean.docdoc.presentation.theme.Seed
 import timber.log.Timber
 
 /**
@@ -44,11 +52,20 @@ fun MainScreen(
     mainViewModel: MainViewModel = hiltViewModel()
 ) {
     val navController = rememberNavController()
-    val hasBottomAppBar =
-        navController.currentBackStackEntryAsState().value?.destination?.route?.let { currentRoute ->
-            NavigationRoute.fromRoute(currentRoute)?.hasBottomNavBar == true
-        } == true
+    val backStackState = navController.currentBackStackEntryAsState()
+    var showBottomAppBar by rememberSaveable { mutableStateOf(false) }
+    fun changeShowBottomAppBar(route: NavigationRoute) {
+        showBottomAppBar = route.hasBottomNavBar
+    }
+//    val showBottomAppBar =
+//        backStackState.value?.destination?.route?.let { currentRoute ->
+//            NavigationRoute.fromRoute(currentRoute)?.hasBottomNavBar == true
+//        } == true
 
+    val currentRoute = backStackState.value?.destination?.route?.let(NavigationRoute::fromRoute)
+
+    val selectedIndex = items.indexOfFirst { it.route == currentRoute }
+    val isSearchSelected = currentRoute == NavigationRoute.SearchRoute
     val state by mainViewModel.state.collectAsStateWithLifecycle()
 
 
@@ -57,14 +74,38 @@ fun MainScreen(
         is MainUIState.Success -> {
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
-                bottomBar = {
-                    if (hasBottomAppBar) {
-                        // todo: bottom app bar
-                        Box(
+                floatingActionButton = {
+                    if (showBottomAppBar)
+                        FloatingActionButton(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp)
-                                .background(Color.Cyan)
+                                .offset(y = 84.dp)
+                                .padding(16.dp),
+                            shape = RoundedCornerShape(28.dp),
+                            contentColor = Color.White,
+                            containerColor = if (isSearchSelected) DarkSeed else Seed,
+                            onClick = {
+                                navController.navigate(NavigationRoute.SearchRoute) {
+                                    launchSingleTop = true
+                                }
+                            }) {
+                            Icon(
+                                modifier = Modifier.padding(28.dp),
+                                painter = painterResource(id = R.drawable.ic_search),
+                                contentDescription = ""
+                            )
+                        }
+                },
+                floatingActionButtonPosition = FabPosition.Center,
+                bottomBar = {
+                    if (showBottomAppBar) {
+                        AppBottomNavBar(
+                            selectedItemIndex = selectedIndex,
+                            navItems = items,
+                            onItemSelected = {
+                                navController.navigate(it) {
+                                    launchSingleTop = true
+                                }
+                            }
                         )
                     }
                 }
@@ -75,14 +116,14 @@ fun MainScreen(
                     startDestination = (state as MainUIState.Success).wholeGraphFirstRoute
                 ) {
                     composable<NavigationRoute.HomeRoute> {
+                        changeShowBottomAppBar(NavigationRoute.HomeRoute)
                         LogDrawing(it)
-                        Button(onClick = {
-                            navController.navigateToRoute(NavigationRoute.RegisterRoute)
-                        }) {
-                            Text("This is Home, go to login")
-                        }
+                        HomeScreen(navigateToSearch = {
+                            navController.navigateToRoute(NavigationRoute.SearchRoute)
+                        })
                     }
                     composable<NavigationRoute.OnboardingRoute> {
+                        changeShowBottomAppBar(NavigationRoute.OnboardingRoute)
                         OnboardingScreen(
                             navigateToRegister = {
                                 navController.navigateToRoute(NavigationRoute.RegisterRoute)
@@ -90,6 +131,7 @@ fun MainScreen(
                         )
                     }
                     composable<NavigationRoute.SpecializationsRoute> {
+                        changeShowBottomAppBar(NavigationRoute.SpecializationsRoute)
                         LogDrawing(it)
                         Text("Specs")
                     }
@@ -97,6 +139,7 @@ fun MainScreen(
                         startDestination = (state as MainUIState.Success).authGraphFirstRoute
                     ) {
                         composable<NavigationRoute.LoginRoute> {
+                            changeShowBottomAppBar(NavigationRoute.LoginRoute)
                             LogDrawing(it)
                             LoginScreen(
                                 authViewModel = navController.getAuthSharedViewModel(it),
@@ -109,6 +152,7 @@ fun MainScreen(
                             )
                         }
                         composable<NavigationRoute.RegisterRoute> {
+                            changeShowBottomAppBar(NavigationRoute.RegisterRoute)
                             LogDrawing(it)
                             RegisterScreen(
                                 authViewModel = navController.getAuthSharedViewModel(it),
@@ -119,6 +163,23 @@ fun MainScreen(
                                     navController.navigateFromRegisterToLogin()
                                 }
                             )
+                        }
+                        composable<NavigationRoute.SpecializationsRoute> {
+                            changeShowBottomAppBar(NavigationRoute.SpecializationsRoute)
+                        }
+                        composable<NavigationRoute.SearchRoute> {
+
+                            changeShowBottomAppBar(NavigationRoute.SearchRoute)
+                        }
+                        composable<NavigationRoute.AppointmentsRoute> {
+
+                            changeShowBottomAppBar(NavigationRoute.AppointmentsRoute)
+
+                        }
+                        composable<NavigationRoute.ProfileRoute> {
+
+                            changeShowBottomAppBar(NavigationRoute.ProfileRoute)
+
                         }
                     }
                 }
@@ -134,3 +195,33 @@ fun LogDrawing(navBackStackEntry: NavBackStackEntry) {
         Timber.d("drawing ${navBackStackEntry.destination.route?.split(".")?.last()}")
     }
 }
+
+val items = listOf(
+    DocDocBottomNavBarItem(
+        titleId = R.string.home,
+        route = NavigationRoute.HomeRoute,
+        selectedIcon = R.drawable.ic_selected_home,
+        unselectedIcon = R.drawable.ic_unselected_home,
+    ),
+    DocDocBottomNavBarItem(
+        titleId = R.string.specializations,
+        route = NavigationRoute.SpecializationsRoute,
+        selectedIcon = R.drawable.ic_selected_specs,
+        unselectedIcon = R.drawable.ic_unselected_specs,
+    ),
+
+    DocDocBottomNavBarItem(
+        titleId = R.string.appointments,
+        route = NavigationRoute.AppointmentsRoute,
+        selectedIcon = R.drawable.ic_selected_calendar,
+        unselectedIcon = R.drawable.ic_unselected_calendar,
+        hasNews = true,
+        badgeCount = 0
+    ),
+    DocDocBottomNavBarItem(
+        titleId = R.string.my_profile,
+        route = NavigationRoute.ProfileRoute,
+        selectedIcon = R.drawable.ic_selected_profile,
+        unselectedIcon = R.drawable.ic_unselected_profile,
+    ),
+)
