@@ -2,6 +2,8 @@ package com.alaishat.mohammad.clean.docdoc.data.repo
 
 import com.alaishat.mohammad.clean.docdoc.data.APIService
 import com.alaishat.mohammad.clean.docdoc.data.SafeAPICaller
+import com.alaishat.mohammad.clean.docdoc.data.model.APISuccess
+import com.alaishat.mohammad.clean.docdoc.data.model.HomeData
 import com.alaishat.mohammad.clean.docdoc.data.model.HomeResponse
 import com.alaishat.mohammad.clean.docdoc.domain.Resource
 import com.alaishat.mohammad.clean.docdoc.domain.model.core.Doctor

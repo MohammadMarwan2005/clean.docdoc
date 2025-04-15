@@ -1,8 +1,10 @@
 package com.alaishat.mohammad.clean.docdoc.data
 
+import com.alaishat.mohammad.clean.docdoc.data.model.APISuccess
 import com.alaishat.mohammad.clean.docdoc.data.model.AuthResponse
 import com.alaishat.mohammad.clean.docdoc.data.model.HomeResponse
 import com.alaishat.mohammad.clean.docdoc.data.model.LoginRequest
+import com.alaishat.mohammad.clean.docdoc.data.model.ProfileDataD
 import com.alaishat.mohammad.clean.docdoc.data.model.RegisterRequest
 import retrofit2.Response
 import retrofit2.http.Body
@@ -27,5 +29,8 @@ interface APIService {
 
     @GET("home/index")
     suspend fun getHomeData(): Response<HomeResponse>
+
+    @GET("user/profile")
+    suspend fun getUserProfile(): Response<APISuccess<List<ProfileDataD>>>
 
 }

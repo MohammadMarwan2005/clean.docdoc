@@ -2,10 +2,13 @@ package com.alaishat.mohammad.clean.docdoc.data.repo
 
 import com.alaishat.mohammad.clean.docdoc.data.APIService
 import com.alaishat.mohammad.clean.docdoc.data.SafeAPICaller
+import com.alaishat.mohammad.clean.docdoc.data.model.APISuccess
 import com.alaishat.mohammad.clean.docdoc.data.model.AuthResponse
 import com.alaishat.mohammad.clean.docdoc.data.model.LoginRequest
+import com.alaishat.mohammad.clean.docdoc.data.model.ProfileDataD
 import com.alaishat.mohammad.clean.docdoc.data.model.RegisterRequest
 import com.alaishat.mohammad.clean.docdoc.domain.Resource
+import com.alaishat.mohammad.clean.docdoc.domain.model.ProfileData
 import com.alaishat.mohammad.clean.docdoc.domain.model.UserAuthData
 import com.alaishat.mohammad.clean.docdoc.domain.repo.AuthRepo
 
@@ -55,6 +58,17 @@ class AuthRepoImpl(
             },
             dataToDomain = {
                 it.authData.toUserAuthData()
+            },
+        )
+    }
+
+    override suspend fun getProfileData(): Resource<ProfileData> {
+        return safeAPICaller.invoke<APISuccess<List<ProfileDataD>>, ProfileData>(
+            apiCall = {
+                apiService.getUserProfile()
+            },
+            dataToDomain = {
+                it.responseData.first().toProfileData()
             },
         )
     }

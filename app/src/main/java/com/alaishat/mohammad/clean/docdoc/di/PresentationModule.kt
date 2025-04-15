@@ -8,6 +8,8 @@ import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.AuthUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.home.HomeUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.main.MainUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.onboarding.OnboardingEvent
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.profile.ProfileEvent
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.profile.ProfileUIState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,7 +37,15 @@ object PresentationModule {
 
     @Provides
     @Singleton
+    fun provideProfileUIState(): StateDelegate<ProfileUIState> = StateDelegate()
+
+    @Provides
+    @Singleton
     fun provideAuthEventDelegate(): EventDelegate<AuthEvent> = EventDelegate()
+
+    @Provides
+    @Singleton
+    fun provideProfileEventDelegate(): EventDelegate<ProfileEvent> = EventDelegate()
 
     @Provides
     @Singleton

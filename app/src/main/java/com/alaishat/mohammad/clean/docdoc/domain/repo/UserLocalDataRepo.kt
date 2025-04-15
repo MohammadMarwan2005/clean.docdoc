@@ -14,4 +14,5 @@ interface UserLocalDataRepo {
     suspend fun getHasOnboarded(): Boolean?
     suspend fun saveUsername(username: String)
     suspend fun getUsernameAsString(): String?
+    suspend fun removeUserTokenAndUsername()
 }

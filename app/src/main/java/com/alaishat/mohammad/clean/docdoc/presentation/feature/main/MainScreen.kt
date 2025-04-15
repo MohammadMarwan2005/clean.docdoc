@@ -32,6 +32,7 @@ import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.login.LoginS
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.register.RegisterScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.home.HomeScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.onboarding.OnboardingScreen
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.profile.ProfileScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.navigation.NavigationRoute
 import com.alaishat.mohammad.clean.docdoc.presentation.navigation.getAuthSharedViewModel
 import com.alaishat.mohammad.clean.docdoc.presentation.navigation.navigateFromLoginToRegister
@@ -177,9 +178,12 @@ fun MainScreen(
 
                         }
                         composable<NavigationRoute.ProfileRoute> {
-
                             changeShowBottomAppBar(NavigationRoute.ProfileRoute)
-
+                            ProfileScreen(onLogout = {
+                                navController.pushReplacement(NavigationRoute.LoginRoute)
+                            }, onBack = {
+                                navController.navigateUp()
+                            })
                         }
                     }
                 }

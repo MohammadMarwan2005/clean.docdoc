@@ -40,6 +40,12 @@ class UserLocalDataRepoImpl(
         return getSavedString(USERNAME_KEY)
     }
 
+    override suspend fun removeUserTokenAndUsername() {
+        listOf(USERNAME_KEY, ACCESS_TOKEN_KEY).forEach {
+            removeString(it)
+        }
+    }
+
     override suspend fun saveToken(token: String) {
         saveString(token, ACCESS_TOKEN_KEY)
     }
@@ -52,11 +58,18 @@ class UserLocalDataRepoImpl(
         return context.dataStore.data.firstOrNull()?.get(HAS_ONBOARDED_KEY)
     }
 
+
+
+
     private suspend fun saveString(value: String, key: Preferences.Key<String>) {
         context.dataStore.edit { it[key] = value }
     }
 
     private suspend fun getSavedString(key: Preferences.Key<String>): String? {
         return context.dataStore.data.firstOrNull()?.get(key)
+    }
+
+    private suspend fun removeString(key: Preferences.Key<String>) {
+        context.dataStore.edit { it.remove(key) }
     }
 }
