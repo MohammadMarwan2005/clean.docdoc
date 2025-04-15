@@ -28,6 +28,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.alaishat.mohammad.clean.docdoc.R
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.appointments.AllAppointmentsScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.login.LoginScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.register.RegisterScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.home.HomeScreen
@@ -173,9 +174,10 @@ fun MainScreen(
                             changeShowBottomAppBar(NavigationRoute.SearchRoute)
                         }
                         composable<NavigationRoute.AppointmentsRoute> {
-
                             changeShowBottomAppBar(NavigationRoute.AppointmentsRoute)
-
+                            AllAppointmentsScreen(onNavigateUp = {
+                                navController.navigateUp()
+                            })
                         }
                         composable<NavigationRoute.ProfileRoute> {
                             changeShowBottomAppBar(NavigationRoute.ProfileRoute)

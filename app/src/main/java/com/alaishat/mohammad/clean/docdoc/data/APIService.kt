@@ -6,6 +6,7 @@ import com.alaishat.mohammad.clean.docdoc.data.model.HomeResponse
 import com.alaishat.mohammad.clean.docdoc.data.model.LoginRequest
 import com.alaishat.mohammad.clean.docdoc.data.model.ProfileDataD
 import com.alaishat.mohammad.clean.docdoc.data.model.RegisterRequest
+import com.alaishat.mohammad.clean.docdoc.data.model.core.AppointmentD
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -32,5 +33,8 @@ interface APIService {
 
     @GET("user/profile")
     suspend fun getUserProfile(): Response<APISuccess<List<ProfileDataD>>>
+
+    @GET("appointment/index")
+    suspend fun getUserAppointments(): Response<APISuccess<List<AppointmentD>>>
 
 }

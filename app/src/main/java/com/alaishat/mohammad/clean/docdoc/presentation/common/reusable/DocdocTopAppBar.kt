@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -26,9 +27,8 @@ import com.alaishat.mohammad.clean.docdoc.presentation.theme.CleanDocdocTheme
  */
 @Composable
 fun DocdocTopAppBar(
-    navController: NavHostController?,
     text: String,
-    onLeftIconClick: () -> Unit = { navController?.navigateUp() },
+    onLeftIconClick: () -> Unit,
     leadingIcon: @Composable () -> Unit = {
         Icon(
             modifier = Modifier
@@ -47,7 +47,7 @@ fun DocdocTopAppBar(
         Spacer(modifier = Modifier.width(32.dp))
     }) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

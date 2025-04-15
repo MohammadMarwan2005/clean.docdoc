@@ -1,6 +1,6 @@
 package com.alaishat.mohammad.clean.docdoc.data.model
 
-import com.alaishat.mohammad.clean.docdoc.domain.model.ProfileData
+import com.alaishat.mohammad.clean.docdoc.domain.model.UserProfileData
 import kotlinx.serialization.Serializable
 
 /**
@@ -15,8 +15,8 @@ data class ProfileDataD(
     val name: String,
     val phone: String
 ) {
-    fun toProfileData(): ProfileData {
-        return ProfileData(
+    fun toDomain(): UserProfileData {
+        return UserProfileData(
             id = id,
             email = email,
             name = name,

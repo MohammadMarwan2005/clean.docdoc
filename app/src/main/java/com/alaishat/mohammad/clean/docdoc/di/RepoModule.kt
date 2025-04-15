@@ -3,9 +3,11 @@ package com.alaishat.mohammad.clean.docdoc.di
 import android.content.Context
 import com.alaishat.mohammad.clean.docdoc.data.APIService
 import com.alaishat.mohammad.clean.docdoc.data.SafeAPICaller
+import com.alaishat.mohammad.clean.docdoc.data.repo.AppointmentsRepoImpl
 import com.alaishat.mohammad.clean.docdoc.data.repo.AuthRepoImpl
 import com.alaishat.mohammad.clean.docdoc.data.repo.HomeRepoImpl
 import com.alaishat.mohammad.clean.docdoc.data.repo.UserLocalDataRepoImpl
+import com.alaishat.mohammad.clean.docdoc.domain.repo.AppointmentsRepo
 import com.alaishat.mohammad.clean.docdoc.domain.repo.AuthRepo
 import com.alaishat.mohammad.clean.docdoc.domain.repo.HomeRepo
 import com.alaishat.mohammad.clean.docdoc.domain.repo.UserLocalDataRepo
@@ -50,6 +52,18 @@ object RepoModule {
         apiService: APIService
     ): HomeRepo {
         return HomeRepoImpl(
+            safeAPICaller = safeAPICaller,
+            apiService = apiService
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideAppointmentsRepo(
+        safeAPICaller: SafeAPICaller,
+        apiService: APIService
+    ): AppointmentsRepo {
+        return AppointmentsRepoImpl(
             safeAPICaller = safeAPICaller,
             apiService = apiService
         )

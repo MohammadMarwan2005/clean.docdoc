@@ -1,7 +1,7 @@
 package com.alaishat.mohammad.clean.docdoc.domain.repo
 
 import com.alaishat.mohammad.clean.docdoc.domain.Resource
-import com.alaishat.mohammad.clean.docdoc.domain.model.ProfileData
+import com.alaishat.mohammad.clean.docdoc.domain.model.UserProfileData
 import com.alaishat.mohammad.clean.docdoc.domain.model.UserAuthData
 
 /**
@@ -22,5 +22,5 @@ interface AuthRepo {
         password: String,
     ): Resource<UserAuthData>
 
-    suspend fun getProfileData(): Resource<ProfileData>
+    suspend fun getProfileData(): Resource<UserProfileData>
 }

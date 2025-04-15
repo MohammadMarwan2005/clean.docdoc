@@ -8,7 +8,7 @@ import com.alaishat.mohammad.clean.docdoc.data.model.LoginRequest
 import com.alaishat.mohammad.clean.docdoc.data.model.ProfileDataD
 import com.alaishat.mohammad.clean.docdoc.data.model.RegisterRequest
 import com.alaishat.mohammad.clean.docdoc.domain.Resource
-import com.alaishat.mohammad.clean.docdoc.domain.model.ProfileData
+import com.alaishat.mohammad.clean.docdoc.domain.model.UserProfileData
 import com.alaishat.mohammad.clean.docdoc.domain.model.UserAuthData
 import com.alaishat.mohammad.clean.docdoc.domain.repo.AuthRepo
 
@@ -62,13 +62,13 @@ class AuthRepoImpl(
         )
     }
 
-    override suspend fun getProfileData(): Resource<ProfileData> {
-        return safeAPICaller.invoke<APISuccess<List<ProfileDataD>>, ProfileData>(
+    override suspend fun getProfileData(): Resource<UserProfileData> {
+        return safeAPICaller.invoke<APISuccess<List<ProfileDataD>>, UserProfileData>(
             apiCall = {
                 apiService.getUserProfile()
             },
             dataToDomain = {
-                it.responseData.first().toProfileData()
+                it.responseData.first().toDomain()
             },
         )
     }

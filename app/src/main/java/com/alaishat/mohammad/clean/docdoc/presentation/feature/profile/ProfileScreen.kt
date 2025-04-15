@@ -41,7 +41,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alaishat.mohammad.clean.docdoc.R
-import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.AppAlertDialog
 import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.DocdocTopAppBar
 import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.ErrorComposable
 import com.alaishat.mohammad.clean.docdoc.presentation.theme.CleanDocdocTheme
@@ -56,7 +55,7 @@ import com.alaishat.mohammad.clean.docdoc.presentation.theme.Seed
 fun ProfileScreen(
     profileViewModel: ProfileViewModel = hiltViewModel(),
     onLogout: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
 ) {
     val state: ProfileUIState by profileViewModel.state.collectAsStateWithLifecycle()
 
@@ -79,7 +78,7 @@ fun ProfileScreen(
             })
 
         is ProfileUIState.Success -> {
-            val profileData = (state as ProfileUIState.Success).profileData
+            val profileData = (state as ProfileUIState.Success).userProfileData
             ProfileContent(
                 name = profileData.name,
                 email = profileData.email,
@@ -131,7 +130,8 @@ fun ProfileContent(
             containerColor = Color.Transparent,
             topBar = {
                 DocdocTopAppBar(
-                    navController = null, text = stringResource(R.string.profile), trailingIcon = {
+                    onLeftIconClick = onBackClicked,
+                    text = stringResource(R.string.profile), trailingIcon = {
                         IconButton(
                             onClick = { showDialog = true }) {
                             Icon(
@@ -241,7 +241,7 @@ private fun PreviewMyProfileComposable() {
                 email = "Mohammad@Mohammad.com",
                 phone = "0998877665",
                 {},
-                {}
+                {},
             )
         }
     }

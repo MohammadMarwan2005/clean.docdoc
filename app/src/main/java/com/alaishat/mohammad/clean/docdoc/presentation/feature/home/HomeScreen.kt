@@ -19,10 +19,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -42,7 +46,9 @@ import com.alaishat.mohammad.clean.docdoc.domain.model.core.Doctor
 import com.alaishat.mohammad.clean.docdoc.domain.model.core.Specialization
 import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.DoctorCard
 import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.ErrorComposable
+import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.MyRefreshIndicator
 import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.TitleWithSeeAllTextButtonRow
+import com.alaishat.mohammad.clean.docdoc.presentation.theme.BottomNavBarContainerColor
 import com.alaishat.mohammad.clean.docdoc.presentation.theme.CleanDocdocTheme
 import com.alaishat.mohammad.clean.docdoc.presentation.theme.Seed
 
@@ -50,7 +56,7 @@ import com.alaishat.mohammad.clean.docdoc.presentation.theme.Seed
  * Created by Mohammad Al-Aishat on Apr/14/2025.
  * Clean DocDoc Project.
  */
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
@@ -60,65 +66,81 @@ fun HomeScreen(
     val state by homeViewModel.state.collectAsStateWithLifecycle()
     val config = LocalConfiguration.current
     val cardPortion = if (config.orientation == Configuration.ORIENTATION_PORTRAIT) 0.25f else 0.1f
-
+    val pullToRefreshState = rememberPullToRefreshState()
+    val isRefreshing = state is HomeUIState.Loading
     Scaffold(
+        topBar = {
+            TopHomeBar(
+                modifier = Modifier.padding(top = 24.dp)
+            )
+        },
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            item {
-                TopHomeBar(
-                    modifier = Modifier
-                        .padding(innerPadding)
+        PullToRefreshBox(
+            modifier = Modifier.padding(innerPadding),
+            isRefreshing = isRefreshing,
+            state = pullToRefreshState,
+            onRefresh = {
+                homeViewModel.fetchHomeData()
+            },
+            indicator = {
+                MyRefreshIndicator(
+                    isRefreshing = isRefreshing,
+                    pullToRefreshState = pullToRefreshState
                 )
             }
-            when (state) {
-                HomeUIState.Loading -> {
-                    item {
-                        CircularProgressIndicator()
+        ) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                when (state) {
+                    HomeUIState.Loading -> {
+                        item {
+                            CircularProgressIndicator()
+                        }
                     }
-                }
 
-                is HomeUIState.Error -> {
-                    item {
-                        ErrorComposable(
-                            modifier = Modifier.fillMaxSize(),
-                            error = (state as HomeUIState.Error).error,
-                            onTryAgain = {
-                                homeViewModel.fetchHomeData()
-                            },
-                        )
+                    is HomeUIState.Error -> {
+                        item {
+                            ErrorComposable(
+                                modifier = Modifier.fillMaxSize(),
+                                error = (state as HomeUIState.Error).error,
+                                onTryAgain = {
+                                    homeViewModel.fetchHomeData()
+                                },
+                            )
+                        }
                     }
-                }
 
-                is HomeUIState.Success -> {
-                    val successState = (state as HomeUIState.Success)
-                    item {
-                        HomeBannerWithAnImage(
-                            username = successState.username,
-                            cardPortion,
-                            onFindNearbyClick = navigateToSearch
-                        )
-                        Spacer(modifier = Modifier.height(24.dp))
-                    }
-                    stickyHeader(key = "TitleWithSeeAllTextButtonRow") {
-                        TitleWithSeeAllTextButtonRow(title = stringResource(R.string.recommended_doctors))
-                    }
-                    item {
-                        Spacer(modifier = Modifier.height(8.dp))
-                        RecommendedCategorizedDoctors(
-                            navigateToDoctor = {
+                    is HomeUIState.Success -> {
+                        val successState = (state as HomeUIState.Success)
+                        item {
+                            HomeBannerWithAnImage(
+                                username = successState.username,
+                                cardPortion,
+                                onFindNearbyClick = navigateToSearch
+                            )
+                            Spacer(modifier = Modifier.height(24.dp))
+                        }
+                        stickyHeader(key = "TitleWithSeeAllTextButtonRow") {
+                            TitleWithSeeAllTextButtonRow(title = stringResource(R.string.recommended_doctors))
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(8.dp))
+                            RecommendedCategorizedDoctors(
+                                navigateToDoctor = {
 
-                            },
-                            data = successState.recommendations
-                        )
+                                },
+                                data = successState.recommendations
+                            )
+                        }
                     }
                 }
             }
+
         }
     }
 
@@ -210,7 +232,6 @@ fun HomeBannerWithAnImage(
         contentAlignment = Alignment.BottomEnd
     ) {
         Column {
-            Spacer(modifier = Modifier.height(16.dp))
             HomeBanner(
                 username = username,
                 cardPortion = cardPortion,
@@ -236,7 +257,10 @@ fun RecommendedCategorizedDoctors(
     Column {
         data.forEach { data ->
             Text(
-                modifier = Modifier.padding(top = 4.dp), text = data.key.name, style = MaterialTheme.typography.titleMedium)
+                modifier = Modifier.padding(top = 4.dp),
+                text = data.key.name,
+                style = MaterialTheme.typography.titleMedium
+            )
             Spacer(modifier = Modifier.height(8.dp))
             RecommendedDoctorRow(
                 doctorsData = data.value,
