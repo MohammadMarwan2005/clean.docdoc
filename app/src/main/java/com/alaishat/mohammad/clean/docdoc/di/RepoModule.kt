@@ -5,11 +5,13 @@ import com.alaishat.mohammad.clean.docdoc.data.APIService
 import com.alaishat.mohammad.clean.docdoc.data.SafeAPICaller
 import com.alaishat.mohammad.clean.docdoc.data.repo.AppointmentsRepoImpl
 import com.alaishat.mohammad.clean.docdoc.data.repo.AuthRepoImpl
-import com.alaishat.mohammad.clean.docdoc.data.repo.HomeRepoImpl
+import com.alaishat.mohammad.clean.docdoc.data.repo.DoctorsRepoImpl
+import com.alaishat.mohammad.clean.docdoc.data.repo.SpecializationsRepoImpl
 import com.alaishat.mohammad.clean.docdoc.data.repo.UserLocalDataRepoImpl
 import com.alaishat.mohammad.clean.docdoc.domain.repo.AppointmentsRepo
 import com.alaishat.mohammad.clean.docdoc.domain.repo.AuthRepo
-import com.alaishat.mohammad.clean.docdoc.domain.repo.HomeRepo
+import com.alaishat.mohammad.clean.docdoc.domain.repo.DoctorsRepo
+import com.alaishat.mohammad.clean.docdoc.domain.repo.SpecializationsRepo
 import com.alaishat.mohammad.clean.docdoc.domain.repo.UserLocalDataRepo
 import dagger.Module
 import dagger.Provides
@@ -50,8 +52,8 @@ object RepoModule {
     fun provideHomeRepo(
         safeAPICaller: SafeAPICaller,
         apiService: APIService
-    ): HomeRepo {
-        return HomeRepoImpl(
+    ): DoctorsRepo {
+        return DoctorsRepoImpl(
             safeAPICaller = safeAPICaller,
             apiService = apiService
         )
@@ -64,6 +66,18 @@ object RepoModule {
         apiService: APIService
     ): AppointmentsRepo {
         return AppointmentsRepoImpl(
+            safeAPICaller = safeAPICaller,
+            apiService = apiService
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideSpecializationsRepo(
+        safeAPICaller: SafeAPICaller,
+        apiService: APIService
+    ): SpecializationsRepo {
+        return SpecializationsRepoImpl(
             safeAPICaller = safeAPICaller,
             apiService = apiService
         )

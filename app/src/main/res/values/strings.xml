@@ -76,6 +76,7 @@
     <string name="logout">Logout</string>
     <string name="home">Home</string>
     <string name="specializations">Specialty</string>
+    <string name="specializations_is_still_loading">Specialty</string>
     <string name="appointments">Appointments</string>
     <string name="my_profile">My Profile</string>
     <string name="wrong_credentials">Wrong Credentials</string>
@@ -86,4 +87,5 @@
     <string name="phone_must_start_with_09_and_be_10_digits">Phone must start with 09 and be 10 digits</string>
     <string name="enter_valid_input_please">Enter valid inputs please</string>
     <string name="got_it">Got it!</string>
+    <string name="the_selected_specialization_is_invalid">The selected specialization is invalid!</string>
 </resources>

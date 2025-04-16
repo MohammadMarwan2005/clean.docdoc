@@ -14,8 +14,8 @@ sealed class DomainError(
 ) {
     companion object {
         const val UNAUTHORIZED_CODE = 401
-        const val UNPROCESSABLE_ENTITY_CODE = 401
-        const val SERVER_ERROR_CODE = 401
+        const val UNPROCESSABLE_ENTITY_CODE = 422
+        const val SERVER_ERROR_CODE = 500
 
         val errorsWithCode = listOf(
             UnauthorizedError,

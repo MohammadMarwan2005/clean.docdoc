@@ -3,6 +3,7 @@ package com.alaishat.mohammad.clean.docdoc.di
 import com.alaishat.mohammad.clean.docdoc.presentation.common.EventDelegate
 import com.alaishat.mohammad.clean.docdoc.presentation.common.StateDelegate
 import com.alaishat.mohammad.clean.docdoc.presentation.common.StringValidationManager
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.all_specs.AllSpecsUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.appointments.AllAppointmentsUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.AuthEvent
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.AuthUIState
@@ -43,6 +44,10 @@ object PresentationModule {
     @Provides
     @Singleton
     fun provideAllAppointmentsUIState(): StateDelegate<AllAppointmentsUIState> = StateDelegate()
+
+    @Provides
+    @Singleton
+    fun provideAllSpecsUIState(): StateDelegate<AllSpecsUIState> = StateDelegate()
 
     @Provides
     @Singleton

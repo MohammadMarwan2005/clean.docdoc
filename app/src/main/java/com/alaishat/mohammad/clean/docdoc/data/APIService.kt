@@ -7,10 +7,13 @@ import com.alaishat.mohammad.clean.docdoc.data.model.LoginRequest
 import com.alaishat.mohammad.clean.docdoc.data.model.ProfileDataD
 import com.alaishat.mohammad.clean.docdoc.data.model.RegisterRequest
 import com.alaishat.mohammad.clean.docdoc.data.model.core.AppointmentD
+import com.alaishat.mohammad.clean.docdoc.data.model.core.DoctorD
+import com.alaishat.mohammad.clean.docdoc.data.model.core.SpecializationD
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 /**
  * Created by Mohammad Al-Aishat on Apr/12/2025.
@@ -36,5 +39,14 @@ interface APIService {
 
     @GET("appointment/index")
     suspend fun getUserAppointments(): Response<APISuccess<List<AppointmentD>>>
+
+    @GET("specialization/index")
+    suspend fun getAllSpecializations(): Response<APISuccess<List<SpecializationD>>>
+
+    @GET("doctor/doctor-filter")
+    suspend fun getFilteredDoctors(
+        @Query("specialization") specializationId: Int?,
+        @Query("city") cityId: Int? = null
+    ): Response<APISuccess<List<DoctorD>>>
 
 }

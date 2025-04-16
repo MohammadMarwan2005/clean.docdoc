@@ -8,6 +8,9 @@ import com.alaishat.mohammad.clean.docdoc.domain.model.core.Specialization
  * Created by Mohammad Al-Aishat on Apr/14/2025.
  * Clean DocDoc Project.
  */
-interface HomeRepo {
+interface DoctorsRepo {
     suspend fun getRecommendedDoctors(): Resource<Map<Specialization, List<Doctor>>>
+    suspend fun getFilteredDoctorsBySpecializationId(
+        specializationId: Int,
+    ): Resource<List<Doctor>>
 }

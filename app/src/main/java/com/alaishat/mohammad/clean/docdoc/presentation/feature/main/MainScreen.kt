@@ -28,6 +28,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.alaishat.mohammad.clean.docdoc.R
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.all_specs.AllSpecsScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.appointments.AllAppointmentsScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.login.LoginScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.register.RegisterScreen
@@ -117,26 +118,6 @@ fun MainScreen(
                     navController = navController,
                     startDestination = (state as MainUIState.Success).wholeGraphFirstRoute
                 ) {
-                    composable<NavigationRoute.HomeRoute> {
-                        changeShowBottomAppBar(NavigationRoute.HomeRoute)
-                        LogDrawing(it)
-                        HomeScreen(navigateToSearch = {
-                            navController.navigateToRoute(NavigationRoute.SearchRoute)
-                        })
-                    }
-                    composable<NavigationRoute.OnboardingRoute> {
-                        changeShowBottomAppBar(NavigationRoute.OnboardingRoute)
-                        OnboardingScreen(
-                            navigateToRegister = {
-                                navController.navigateToRoute(NavigationRoute.RegisterRoute)
-                            }
-                        )
-                    }
-                    composable<NavigationRoute.SpecializationsRoute> {
-                        changeShowBottomAppBar(NavigationRoute.SpecializationsRoute)
-                        LogDrawing(it)
-                        Text("Specs")
-                    }
                     navigation<NavigationRoute.AuthRoute>(
                         startDestination = (state as MainUIState.Success).authGraphFirstRoute
                     ) {
@@ -166,27 +147,48 @@ fun MainScreen(
                                 }
                             )
                         }
-                        composable<NavigationRoute.SpecializationsRoute> {
-                            changeShowBottomAppBar(NavigationRoute.SpecializationsRoute)
-                        }
-                        composable<NavigationRoute.SearchRoute> {
+                    }
+                    composable<NavigationRoute.OnboardingRoute> {
+                        changeShowBottomAppBar(NavigationRoute.OnboardingRoute)
+                        OnboardingScreen(
+                            navigateToRegister = {
+                                navController.navigateToRoute(NavigationRoute.RegisterRoute)
+                            }
+                        )
+                    }
+                    composable<NavigationRoute.HomeRoute> {
+                        changeShowBottomAppBar(NavigationRoute.HomeRoute)
+                        LogDrawing(it)
+                        HomeScreen(navigateToSearch = {
+                            navController.navigateToRoute(NavigationRoute.SearchRoute)
+                        })
+                    }
+                    composable<NavigationRoute.SpecializationsRoute> {
+                        changeShowBottomAppBar(NavigationRoute.SpecializationsRoute)
+                        LogDrawing(it)
+                        AllSpecsScreen(
+                            onNavigateUp = {
+                                navController.navigateUp()
+                            }
+                        )
+                    }
+                    composable<NavigationRoute.SearchRoute> {
 
-                            changeShowBottomAppBar(NavigationRoute.SearchRoute)
-                        }
-                        composable<NavigationRoute.AppointmentsRoute> {
-                            changeShowBottomAppBar(NavigationRoute.AppointmentsRoute)
-                            AllAppointmentsScreen(onNavigateUp = {
-                                navController.navigateUp()
-                            })
-                        }
-                        composable<NavigationRoute.ProfileRoute> {
-                            changeShowBottomAppBar(NavigationRoute.ProfileRoute)
-                            ProfileScreen(onLogout = {
-                                navController.pushReplacement(NavigationRoute.LoginRoute)
-                            }, onBack = {
-                                navController.navigateUp()
-                            })
-                        }
+                        changeShowBottomAppBar(NavigationRoute.SearchRoute)
+                    }
+                    composable<NavigationRoute.AppointmentsRoute> {
+                        changeShowBottomAppBar(NavigationRoute.AppointmentsRoute)
+                        AllAppointmentsScreen(onNavigateUp = {
+                            navController.navigateUp()
+                        })
+                    }
+                    composable<NavigationRoute.ProfileRoute> {
+                        changeShowBottomAppBar(NavigationRoute.ProfileRoute)
+                        ProfileScreen(onLogout = {
+                            navController.pushReplacement(NavigationRoute.LoginRoute)
+                        }, onBack = {
+                            navController.navigateUp()
+                        })
                     }
                 }
             }
