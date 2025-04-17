@@ -30,6 +30,15 @@ android {
 //            )
 //        }
 //    }
+    signingConfigs {
+        create("release") {
+            storeFile = file("docdoc.jks")
+            storePassword = System.getenv("DOC_DOC_KEY_STORE_PASSWORD")
+            keyAlias = "key0"
+            keyPassword = System.getenv("DOC_DOC_ALIAS_PASSWORD")
+        }
+    }
+
     buildTypes {
         val productionBaseUrl = "\"https://vcare.integration25.com/api/\""
         debug {
@@ -39,6 +48,7 @@ android {
         release {
             isMinifyEnabled = false // note that Proguard is disabled
             buildConfigField("String", "API_BASE_URL", productionBaseUrl)
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
