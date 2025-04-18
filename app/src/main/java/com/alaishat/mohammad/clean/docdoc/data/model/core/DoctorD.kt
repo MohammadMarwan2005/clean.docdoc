@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.Locale
 
 
@@ -30,21 +31,6 @@ data class DoctorD(
     @SerializedName("start_time") val startTime: String
 ) {
     fun toDomain(): Doctor {
-        val formatter = DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy h:mm a", Locale.ENGLISH)
-
-        val parsedStart = try {
-            LocalDateTime.parse(startTime, formatter)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            LocalDateTime.MIN
-        }
-
-        val parsedEnd = try {
-            LocalDateTime.parse(endTime, formatter)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            LocalDateTime.MIN
-        }
 
         return Doctor(
             address = address,
@@ -59,8 +45,8 @@ data class DoctorD(
             phone = phone,
             photo = photo,
             specialization = specialization.toDomain(),
-            endTime = parsedStart,
-            startTime = parsedEnd
+            endTime = endTime,
+            startTime = startTime
         )
     }
 }

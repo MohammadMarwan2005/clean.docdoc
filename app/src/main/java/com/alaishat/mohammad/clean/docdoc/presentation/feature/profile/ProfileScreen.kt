@@ -130,8 +130,18 @@ fun ProfileContent(
             containerColor = Color.Transparent,
             topBar = {
                 DocdocTopAppBar(
-                    onLeftIconClick = onBackClicked,
-                    text = stringResource(R.string.profile), trailingIcon = {
+                    text = stringResource(R.string.profile),
+                    onLeftIconClick = onBackClicked, leadingIcon = {
+                        Icon(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(10.dp))
+                                .clickable { onBackClicked() },
+                            painter = painterResource(id = R.drawable.ic_back_button),
+                            contentDescription = "",
+                            tint = Color.White
+                        )
+                    },
+                    trailingIcon = {
                         IconButton(
                             onClick = { showDialog = true }) {
                             Icon(
@@ -141,16 +151,8 @@ fun ProfileContent(
                             )
                         }
                     },
-                    leadingIcon = {
-                        Icon(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(10.dp))
-                                .clickable { onBackClicked() },
-                            painter = painterResource(id = R.drawable.ic_back_button),
-                            contentDescription = "",
-                            tint = Color.White
-                        )
-                    }
+                    backgroundColor = Color.Unspecified,
+                    textColor = MaterialTheme.colorScheme.background
                 )
             }
         ) { paddingValues ->

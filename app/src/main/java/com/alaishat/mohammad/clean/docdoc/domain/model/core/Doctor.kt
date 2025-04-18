@@ -19,6 +19,6 @@ data class Doctor(
     val phone: String,
     val photo: String,
     val specialization: Specialization,
-    val endTime: LocalDateTime,
-    val startTime: LocalDateTime
+    val endTime: String,
+    val startTime: String
 )

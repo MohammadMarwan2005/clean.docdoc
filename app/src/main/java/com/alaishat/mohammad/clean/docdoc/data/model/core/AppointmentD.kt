@@ -3,10 +3,9 @@ package com.alaishat.mohammad.clean.docdoc.data.model.core
 import com.alaishat.mohammad.clean.docdoc.data.model.ProfileDataD
 import com.alaishat.mohammad.clean.docdoc.domain.model.core.Appointment
 import com.google.gson.annotations.SerializedName
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Date
+import java.time.format.DateTimeParseException
 import java.util.Locale
 
 /**
@@ -25,9 +24,12 @@ data class AppointmentD(
 ) {
     fun toDomain(): Appointment {
         val formatter = DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy h:mm a", Locale.ENGLISH)
+        val secondFormatter = DateTimeFormatter.ofPattern("HH:mm:ss", Locale.ENGLISH)
 
         val parsedStart = try {
             LocalDateTime.parse(appointmentStartTime, formatter)
+        } catch (_: DateTimeParseException) {
+            LocalDateTime.parse(appointmentStartTime, secondFormatter)
         } catch (e: Exception) {
             e.printStackTrace()
             LocalDateTime.MIN
@@ -35,10 +37,13 @@ data class AppointmentD(
 
         val parsedEnd = try {
             LocalDateTime.parse(appointmentEndTime, formatter)
+        } catch (_: DateTimeParseException) {
+            LocalDateTime.parse(appointmentStartTime, secondFormatter)
         } catch (e: Exception) {
             e.printStackTrace()
             LocalDateTime.MIN
         }
+
         return Appointment(
             id = id,
             doctor = doctor.toDomain(),

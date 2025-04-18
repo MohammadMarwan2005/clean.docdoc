@@ -1,6 +1,7 @@
 package com.alaishat.mohammad.clean.docdoc.presentation.common.reusable
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -58,13 +59,14 @@ fun DocdocButton(
 fun DocdocButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    isLoading: Boolean,
+    isLoading: Boolean = false,
+    enabled: Boolean = true,
     label: String,
 ) {
     DocdocButton(
-        modifier = modifier,
+        modifier = modifier.background(MaterialTheme.colorScheme.background),
         onClick = onClick,
-        enabled = !isLoading
+        enabled = !isLoading && enabled
     ) {
         Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Text(

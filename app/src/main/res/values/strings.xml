@@ -58,7 +58,7 @@
     <string name="completed">Completed</string>
     <string name="you_have_no_pending_appointments_yet">You have no pending appointments yet!</string>
     <string name="you_have_no_completed_appointments_yet">You have no completed appointments yet!</string>
-    <string name="time_is_invalid">Time is Invalid!: %1$s</string>
+    <string name="time_is_invalid">Time is Invalid!</string>
     <string name="details">Details</string>
     <string name="you_can_not_book_an_appointment_in_the_past">You can not book an appointment in the past!</string>
     <string name="all_specializations">All Specializations</string>
@@ -89,4 +89,5 @@
     <string name="got_it">Got it!</string>
     <string name="the_selected_specialization_is_invalid">The selected specialization is invalid!</string>
     <string name="share_doctor_link">Share Doctor Link</string>
+    <string name="invalid_date_or_time">Invalid Date or Time</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.alaishat.mohammad.clean.docdoc.domain.repo
 
 import com.alaishat.mohammad.clean.docdoc.domain.Resource
+import com.alaishat.mohammad.clean.docdoc.domain.model.BookAppointment
 import com.alaishat.mohammad.clean.docdoc.domain.model.core.Appointment
 
 /**
@@ -9,4 +10,5 @@ import com.alaishat.mohammad.clean.docdoc.domain.model.core.Appointment
  */
 interface AppointmentsRepo {
     suspend fun getAllUserAppointments(): Resource<List<Appointment>>
+    suspend fun bookAppointment(bookAppointment: BookAppointment): Resource<Appointment>
 }

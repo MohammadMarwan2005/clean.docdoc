@@ -20,7 +20,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -34,6 +33,8 @@ import com.alaishat.mohammad.clean.docdoc.presentation.feature.all_specs.AllSpec
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.appointments.AllAppointmentsScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.login.LoginScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.register.RegisterScreen
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.book_appointment.BookAppointmentScreen
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.book_appointment.BookAppointmentViewModel
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.doctor_details.DoctorDetailsScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.doctor_details.DoctorDetailsViewModel
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.home.HomeScreen
@@ -91,7 +92,7 @@ fun MainScreen(
                             contentColor = Color.White,
                             containerColor = if (isSearchSelected) DarkSeed else Seed,
                             onClick = {
-                                navController.navigate(NavigationRoute.SearchRoute) {
+                                navController.navigateToRoute(NavigationRoute.SearchRoute) {
                                     launchSingleTop = true
                                 }
                             }) {
@@ -109,7 +110,7 @@ fun MainScreen(
                             selectedItemIndex = selectedIndex,
                             navItems = items,
                             onItemSelected = {
-                                navController.navigate(it) {
+                                navController.navigateToRoute(it) {
                                     launchSingleTop = true
                                 }
                             }
@@ -166,7 +167,11 @@ fun MainScreen(
                         HomeScreen(navigateToSearch = {
                             navController.navigateToRoute(NavigationRoute.SearchRoute)
                         }, navigateToDoctor = { doctorId ->
-                            navController.navigateToRoute(NavigationRoute.DoctorDetailsRoute(doctorId))
+                            navController.navigateToRoute(
+                                NavigationRoute.DoctorDetailsRoute(
+                                    doctorId
+                                )
+                            )
                         })
                     }
                     composable<NavigationRoute.SpecializationsRoute> {
@@ -177,7 +182,11 @@ fun MainScreen(
                                 navController.navigateUp()
                             },
                             navigateToDoctorDetails = { doctorId ->
-                                navController.navigate(NavigationRoute.DoctorDetailsRoute(doctorId))
+                                navController.navigateToRoute(
+                                    NavigationRoute.DoctorDetailsRoute(
+                                        doctorId
+                                    )
+                                )
                             },
                         )
                     }
@@ -218,11 +227,34 @@ fun MainScreen(
                             onNavigateUp = {
                                 navController.navigateUp()
                             },
-                            navigateToScheduleAppointment = {
-                                // todo
+                            navigateToScheduleAppointment = { doctorId ->
+                                navController.navigateToRoute(
+                                    NavigationRoute.BookAppointmentRoute(
+                                        doctorId
+                                    )
+                                )
                             }
                         )
                     }
+                    composable<NavigationRoute.BookAppointmentRoute> {
+                        val bookAppointmentRoute =
+                            it.toRoute<NavigationRoute.BookAppointmentRoute>()
+                        changeShowBottomAppBar(bookAppointmentRoute)
+                        val bookAppointmentViewModel: BookAppointmentViewModel = hiltViewModel()
+                        bookAppointmentViewModel.savedStateHandle[BookAppointmentViewModel.DOCTOR_ID_KEY] =
+                            bookAppointmentRoute.doctorId
+
+                        BookAppointmentScreen(
+                            bookAppointmentViewModel = bookAppointmentViewModel,
+                            onNavigateUp = {
+                                navController.navigateUp()
+                            },
+                            navigateToAppointmentDetailsScreen = { appointmentId ->
+                                // todo:
+                            }
+                        )
+                    }
+
                 }
             }
         }

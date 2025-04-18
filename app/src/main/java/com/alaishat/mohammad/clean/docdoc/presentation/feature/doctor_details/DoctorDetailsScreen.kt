@@ -70,9 +70,12 @@ fun DoctorDetailsScreen(
                             doctorDetailsViewModel.shareDoctorLink(context = context)
                         }
                     ) {
-                        Icon(imageVector = Icons.Outlined.Share, contentDescription = "Share Doctor")
+                        Icon(
+                            imageVector = Icons.Outlined.Share,
+                            contentDescription = "Share Doctor"
+                        )
                     }
-                }
+                },
             )
         }
     ) { innerPadding ->
@@ -92,7 +95,6 @@ fun DoctorDetailsScreen(
                 is DoctorDetailsUIState.Success -> {
                     DoctorDetailsContent(
                         doctor = (state as DoctorDetailsUIState.Success).data,
-                        onNavigateUp = onNavigateUp,
                         navigateToScheduleAppointment = navigateToScheduleAppointment
                     )
                 }
@@ -106,7 +108,6 @@ fun DoctorDetailsScreen(
 @Composable
 private fun DoctorDetailsContent(
     doctor: Doctor,
-    onNavigateUp: () -> Unit,
     navigateToScheduleAppointment: (doctorId: Int) -> Unit
 ) {
     val pagerState = rememberPagerState { 3 }

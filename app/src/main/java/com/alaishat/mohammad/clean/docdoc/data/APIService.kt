@@ -2,6 +2,7 @@ package com.alaishat.mohammad.clean.docdoc.data
 
 import com.alaishat.mohammad.clean.docdoc.data.model.APISuccess
 import com.alaishat.mohammad.clean.docdoc.data.model.AuthResponse
+import com.alaishat.mohammad.clean.docdoc.data.model.BookAppointmentRequest
 import com.alaishat.mohammad.clean.docdoc.data.model.HomeResponse
 import com.alaishat.mohammad.clean.docdoc.data.model.LoginRequest
 import com.alaishat.mohammad.clean.docdoc.data.model.ProfileDataD
@@ -9,6 +10,7 @@ import com.alaishat.mohammad.clean.docdoc.data.model.RegisterRequest
 import com.alaishat.mohammad.clean.docdoc.data.model.core.AppointmentD
 import com.alaishat.mohammad.clean.docdoc.data.model.core.DoctorD
 import com.alaishat.mohammad.clean.docdoc.data.model.core.SpecializationD
+import com.alaishat.mohammad.clean.docdoc.domain.model.core.Appointment
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -55,4 +57,8 @@ interface APIService {
         @Path("id") id: Int
     ): Response<APISuccess<DoctorD>>
 
+    @POST("appointment/store")
+    suspend fun bookAppointment(
+        @Body bookAppointmentRequest: BookAppointmentRequest
+    ): Response<APISuccess<AppointmentD>>
 }

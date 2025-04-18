@@ -7,6 +7,8 @@ import com.alaishat.mohammad.clean.docdoc.presentation.feature.all_specs.AllSpec
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.appointments.AllAppointmentsUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.AuthEvent
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.AuthUIState
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.book_appointment.BookAppointmentEvent
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.book_appointment.BookAppointmentUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.doctor_details.DoctorDetailsUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.home.HomeUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.main.MainUIState
@@ -56,7 +58,15 @@ object PresentationModule {
 
     @Provides
     @Singleton
+    fun provideBookAppointmentUIState(): StateDelegate<BookAppointmentUIState> = StateDelegate()
+
+    @Provides
+    @Singleton
     fun provideAuthEventDelegate(): EventDelegate<AuthEvent> = EventDelegate()
+
+    @Provides
+    @Singleton
+    fun provideBookAppointmentEventDelegate(): EventDelegate<BookAppointmentEvent> = EventDelegate()
 
     @Provides
     @Singleton

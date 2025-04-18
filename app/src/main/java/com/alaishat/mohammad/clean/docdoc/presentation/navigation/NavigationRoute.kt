@@ -85,4 +85,7 @@ sealed class NavigationRoute(val hasBottomNavBar: Boolean = false) {
     @Serializable
     data class DoctorDetailsRoute(val doctorId: Int) : NavigationRoute()
 
+    @Serializable
+    data class BookAppointmentRoute(val doctorId: Int) : NavigationRoute()
+
 }
