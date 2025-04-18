@@ -5,6 +5,7 @@
     <string name="unauthorized_error">Unauthorized!</string>
     <string name="unprocessable_entity_error">Invalid Input!</string>
     <string name="server_error">Server Error!</string>
+    <string name="not_found">Resource Not Found!</string>
     <string name="unknown_error">Unknown Error!</string>
     <string name="we_re_excited_to_have_you_back_can_t_wait_to_see_what_you_ve_been_up_to_since_you_last_logged_in">We\'re excited to have you back, can\'t wait to see what you\'ve been up to since you last logged in.</string>
     <string name="welcome_back">Welcome Back</string>

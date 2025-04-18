@@ -13,14 +13,16 @@ sealed class DomainError(
     open val details: List<String>? = null
 ) {
     companion object {
-        const val UNAUTHORIZED_CODE = 401
-        const val UNPROCESSABLE_ENTITY_CODE = 422
-        const val SERVER_ERROR_CODE = 500
+        private const val UNAUTHORIZED_CODE = 401
+        private const val UNPROCESSABLE_ENTITY_CODE = 422
+        private const val SERVER_ERROR_CODE = 500
+        private const val NOT_FOUND_CODE = 404
 
         val errorsWithCode = listOf(
             UnauthorizedError,
 //            UnprocessableEntityError, // we want to get the message because it differ, examples: (email is taken, email is invalid, phone is take, phone is invalid,
-            ServerError
+            ServerError,
+            NotFoundError
         )
 
         fun fromStatusCode(apiErrorAsDomainError: DomainError): DomainError {
@@ -52,6 +54,13 @@ sealed class DomainError(
             statusCode = SERVER_ERROR_CODE
         )
 
+    data object NotFoundError :
+        DomainError(
+            message = "Not Found!",
+            messageId = R.string.not_found,
+            statusCode = NOT_FOUND_CODE
+        )
+
     data object NoInternetError : DomainError(
         message = "No Internet Connection!",
         messageId = R.string.no_internet_connection
@@ -60,8 +69,12 @@ sealed class DomainError(
     data object UnknownError :
         DomainError(message = "Unknown Error!", messageId = R.string.unknown_error)
 
-    data class CustomError(override val message: String, override val messageId: Int?, override val details: List<String>? = null,
-                           override val statusCode: Int? = null) :
+    data class CustomError(
+        override val message: String,
+        override val messageId: Int?,
+        override val details: List<String>? = null,
+        override val statusCode: Int? = null
+    ) :
         DomainError(message = message, messageId = messageId, statusCode = statusCode)
 }
 

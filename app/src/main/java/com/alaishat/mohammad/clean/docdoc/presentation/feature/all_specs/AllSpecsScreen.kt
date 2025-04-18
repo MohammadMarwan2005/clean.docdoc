@@ -92,7 +92,8 @@ fun AllSpecsScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+                .padding(innerPadding),
+            contentAlignment = Alignment.Center
         ) {
             uiState.specializationsUIState.let { specsState ->
                 when (specsState) {

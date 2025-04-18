@@ -16,6 +16,8 @@ data class Appointment(
     val appointmentPrice: Int,
     val appointmentStartTime: LocalDateTime,
     val appointmentEndTime: LocalDateTime,
+    val startTimeStr: String,
+    val endTimeStr: String,
     val status: String
 ) {
     companion object {

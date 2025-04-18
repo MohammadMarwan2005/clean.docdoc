@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -49,6 +48,7 @@ import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.DoctorCar
 import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.ErrorComposable
 import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.MyRefreshIndicator
 import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.TitleWithSeeAllTextButtonRow
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.main.LoadingScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.theme.CleanDocdocTheme
 import com.alaishat.mohammad.clean.docdoc.presentation.theme.Seed
 
@@ -77,7 +77,6 @@ fun HomeScreen(
         },
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
     ) { innerPadding ->
         PullToRefreshBox(
             modifier = Modifier.padding(innerPadding),
@@ -96,11 +95,13 @@ fun HomeScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.Center
             ) {
                 when (state) {
                     HomeUIState.Loading -> {
                         item {
-                            CircularProgressIndicator()
+                            LoadingScreen()
                         }
                     }
 

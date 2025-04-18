@@ -11,4 +11,5 @@ import com.alaishat.mohammad.clean.docdoc.domain.model.core.Appointment
 interface AppointmentsRepo {
     suspend fun getAllUserAppointments(): Resource<List<Appointment>>
     suspend fun bookAppointment(bookAppointment: BookAppointment): Resource<Appointment>
+    suspend fun getAppointmentById(appointmentId: Int): Resource<Appointment>
 }

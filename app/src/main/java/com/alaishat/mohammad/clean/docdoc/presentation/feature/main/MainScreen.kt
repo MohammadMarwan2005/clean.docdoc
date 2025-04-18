@@ -30,6 +30,8 @@ import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
 import com.alaishat.mohammad.clean.docdoc.R
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.all_specs.AllSpecsScreen
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.appointment_info.AppointmentInfoScreen
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.appointment_info.AppointmentInfoViewModel
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.appointments.AllAppointmentsScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.login.LoginScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.register.RegisterScreen
@@ -198,7 +200,14 @@ fun MainScreen(
                         changeShowBottomAppBar(NavigationRoute.AppointmentsRoute)
                         AllAppointmentsScreen(onNavigateUp = {
                             navController.navigateUp()
-                        })
+                        }, navigateToAppointmentDetailsScreen = { appointmentId ->
+                            navController.navigateToRoute(
+                                NavigationRoute.AppointmentInfoRoute(
+                                    appointmentId
+                                )
+                            )
+                        }
+                        )
                     }
                     composable<NavigationRoute.ProfileRoute> {
                         changeShowBottomAppBar(NavigationRoute.ProfileRoute)
@@ -250,11 +259,50 @@ fun MainScreen(
                                 navController.navigateUp()
                             },
                             navigateToAppointmentDetailsScreen = { appointmentId ->
-                                // todo:
+                                navController.popBackStack(
+                                    NavigationRoute.HomeRoute,
+                                    inclusive = false
+                                )
+                                navController.navigateToRoute(
+                                    NavigationRoute.AppointmentInfoRoute(
+                                        appointmentId = appointmentId,
+                                        isJustBooked = true
+                                    )
+                                )
                             }
                         )
                     }
+                    composable<NavigationRoute.AppointmentInfoRoute> {
+                        val appointmentInfoRoute =
+                            it.toRoute<NavigationRoute.AppointmentInfoRoute>()
+                        changeShowBottomAppBar(appointmentInfoRoute)
+                        Timber.d(appointmentInfoRoute.toString())
+                        val viewModel: AppointmentInfoViewModel = hiltViewModel()
+                        viewModel.savedStateHandle[AppointmentInfoViewModel.APPOINTMENT_ID_KEY] =
+                            appointmentInfoRoute.appointmentId
+                        viewModel.savedStateHandle[AppointmentInfoViewModel.JUST_BOOKED_KEY] =
+                            appointmentInfoRoute.isJustBooked
 
+                        AppointmentInfoScreen(
+                            appointmentInfoViewModel = viewModel,
+                            onNavigateUp = {
+                                navController.navigateUp()
+                            },
+                            popToHome = {
+                                navController.popBackStack(
+                                    NavigationRoute.HomeRoute,
+                                    inclusive = false
+                                )
+                            },
+                            navigateToDoctorDetailsScreen = { doctorId ->
+                                navController.navigateToRoute(
+                                    NavigationRoute.DoctorDetailsRoute(
+                                        doctorId
+                                    )
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }

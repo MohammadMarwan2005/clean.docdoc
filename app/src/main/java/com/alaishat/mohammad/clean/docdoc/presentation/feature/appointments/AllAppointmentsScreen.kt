@@ -51,7 +51,8 @@ import java.util.Locale
 @Composable
 fun AllAppointmentsScreen(
     allAppointmentsViewModel: AllAppointmentsViewModel = hiltViewModel(),
-    onNavigateUp: () -> Unit
+    onNavigateUp: () -> Unit,
+    navigateToAppointmentDetailsScreen: (appointmentId: Int) -> Unit
 ) {
     val state by allAppointmentsViewModel.state.collectAsStateWithLifecycle()
     val isRefreshing = state is AllAppointmentsUIState.Loading
@@ -147,13 +148,15 @@ fun AllAppointmentsScreen(
                             when (selectedIndex) {
                                 0 -> {
                                     AppointmentsLazyList(
-                                        appointments = (state as AllAppointmentsUIState.Success).pendingAppointments
+                                        appointments = (state as AllAppointmentsUIState.Success).pendingAppointments,
+                                        navigateToAppointmentDetailsScreen = navigateToAppointmentDetailsScreen
                                     )
                                 }
 
                                 1 -> {
                                     AppointmentsLazyList(
-                                        appointments = (state as AllAppointmentsUIState.Success).completedAppointments
+                                        appointments = (state as AllAppointmentsUIState.Success).completedAppointments,
+                                        navigateToAppointmentDetailsScreen = navigateToAppointmentDetailsScreen
                                     )
                                 }
                             }
@@ -167,7 +170,8 @@ fun AllAppointmentsScreen(
 
 @Composable
 fun AppointmentsLazyList(
-    appointments: List<Appointment>
+    appointments: List<Appointment>,
+    navigateToAppointmentDetailsScreen: (Int) -> Unit
 ) {
     if (appointments.isEmpty())
         Text(
@@ -182,7 +186,7 @@ fun AppointmentsLazyList(
                 )
                 DoctorCardWithDivider(
                     onClick = {
-                        // navigateToDoctorDetailsScreen...
+                        navigateToAppointmentDetailsScreen(it.id)
                     },
                     name = it.doctor.name,
                     specialization = it.doctor.name,

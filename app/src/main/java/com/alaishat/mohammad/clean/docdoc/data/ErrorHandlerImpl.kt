@@ -14,6 +14,7 @@ class ErrorHandlerImpl : ErrorHandler {
         exception: Throwable,
         defaultError: DomainError?
     ): DomainError {
+        exception.printStackTrace()
         return when (exception) {
             is IOException -> {
                 DomainError.NoInternetError

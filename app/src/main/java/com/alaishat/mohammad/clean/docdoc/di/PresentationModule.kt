@@ -4,6 +4,7 @@ import com.alaishat.mohammad.clean.docdoc.presentation.common.EventDelegate
 import com.alaishat.mohammad.clean.docdoc.presentation.common.StateDelegate
 import com.alaishat.mohammad.clean.docdoc.presentation.common.StringValidationManager
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.all_specs.AllSpecsUIState
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.appointment_info.AppointmentInfoUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.appointments.AllAppointmentsUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.AuthEvent
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.AuthUIState
@@ -59,6 +60,10 @@ object PresentationModule {
     @Provides
     @Singleton
     fun provideBookAppointmentUIState(): StateDelegate<BookAppointmentUIState> = StateDelegate()
+
+    @Provides
+    @Singleton
+    fun provideAppointmentInfoUIState(): StateDelegate<AppointmentInfoUIState> = StateDelegate()
 
     @Provides
     @Singleton
