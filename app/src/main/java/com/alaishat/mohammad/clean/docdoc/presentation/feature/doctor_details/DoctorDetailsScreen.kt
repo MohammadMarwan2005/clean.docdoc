@@ -11,6 +11,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
@@ -22,6 +26,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Gray
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
@@ -49,6 +54,7 @@ fun DoctorDetailsScreen(
     navigateToScheduleAppointment: (doctorId: Int) -> Unit
 ) {
     val state by doctorDetailsViewModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     Scaffold(
         modifier = Modifier
@@ -58,6 +64,15 @@ fun DoctorDetailsScreen(
             DocdocTopAppBar(
                 text = stringResource(R.string.doctor_information),
                 onLeftIconClick = onNavigateUp,
+                trailingIcon = {
+                    IconButton(
+                        onClick = {
+                            doctorDetailsViewModel.shareDoctorLink(context = context)
+                        }
+                    ) {
+                        Icon(imageVector = Icons.Outlined.Share, contentDescription = "Share Doctor")
+                    }
+                }
             )
         }
     ) { innerPadding ->

@@ -88,4 +88,5 @@
     <string name="enter_valid_input_please">Enter valid inputs please</string>
     <string name="got_it">Got it!</string>
     <string name="the_selected_specialization_is_invalid">The selected specialization is invalid!</string>
+    <string name="share_doctor_link">Share Doctor Link</string>
 </resources>

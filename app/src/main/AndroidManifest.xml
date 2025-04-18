@@ -25,6 +25,18 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Deep Links won't work on Android 12+ because the link isn't verified yet -->
+                <!-- So we just need to host a json file on the back-end ex: https://www.coursera.org/.well-known/assetlinks.json -->
+                <data android:scheme="https" />
+                <data android:host="docdoc.com" />
+                <data android:scheme="https" />
+                <data android:host="www.docdoc.com" />
+            </intent-filter>
         </activity>
     </application>
 

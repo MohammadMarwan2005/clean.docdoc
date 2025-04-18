@@ -13,7 +13,8 @@ import kotlin.reflect.full.primaryConstructor
 sealed class NavigationRoute(val hasBottomNavBar: Boolean = false) {
 
     companion object {
-        const val APP_DOMAIN_URL = "https://example.com"
+        private const val APP_DOMAIN_URL = "https://docdoc.com"
+        const val DOCTOR_URL = "$APP_DOMAIN_URL/doctor"
 
         // Cache all sealed subclasses and their object instances by qualified name
         private val routeMap: Map<String, NavigationRoute> by lazy {

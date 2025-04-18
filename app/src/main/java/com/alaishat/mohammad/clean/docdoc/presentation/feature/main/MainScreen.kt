@@ -202,7 +202,7 @@ fun MainScreen(
                     composable<NavigationRoute.DoctorDetailsRoute>(
                         deepLinks = listOf(
                             navDeepLink<NavigationRoute.DoctorDetailsRoute>(
-                                basePath = NavigationRoute.APP_DOMAIN_URL
+                                basePath = NavigationRoute.DOCTOR_URL
                             )
                         ),
                     ) {
