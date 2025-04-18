@@ -1,9 +1,12 @@
 package com.alaishat.mohammad.clean.docdoc.data.model.core
 
 import com.alaishat.mohammad.clean.docdoc.domain.model.core.Doctor
-import com.alaishat.mohammad.clean.docdoc.domain.model.core.Specialization
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
+
 
 /**
  * Created by Mohammad Al-Aishat on Apr/14/2025.
@@ -27,6 +30,22 @@ data class DoctorD(
     @SerializedName("start_time") val startTime: String
 ) {
     fun toDomain(): Doctor {
+        val formatter = DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy h:mm a", Locale.ENGLISH)
+
+        val parsedStart = try {
+            LocalDateTime.parse(startTime, formatter)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            LocalDateTime.MIN
+        }
+
+        val parsedEnd = try {
+            LocalDateTime.parse(endTime, formatter)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            LocalDateTime.MIN
+        }
+
         return Doctor(
             address = address,
             appointPrice = appointPrice,
@@ -40,8 +59,8 @@ data class DoctorD(
             phone = phone,
             photo = photo,
             specialization = specialization.toDomain(),
-            endTime = endTime,
-            startTime = startTime
+            endTime = parsedStart,
+            startTime = parsedEnd
         )
     }
 }

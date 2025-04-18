@@ -13,7 +13,7 @@ import kotlin.reflect.full.primaryConstructor
 sealed class NavigationRoute(val hasBottomNavBar: Boolean = false) {
 
     companion object {
-        const val APP_DOMAIN_URL = "https://example.com" // Used for deep links
+        const val APP_DOMAIN_URL = "https://example.com"
 
         // Cache all sealed subclasses and their object instances by qualified name
         private val routeMap: Map<String, NavigationRoute> by lazy {
@@ -80,5 +80,8 @@ sealed class NavigationRoute(val hasBottomNavBar: Boolean = false) {
 
     @Serializable
     data object OnboardingRoute : NavigationRoute()
+
+    @Serializable
+    data class DoctorDetailsRoute(val doctorId: Int) : NavigationRoute()
 
 }

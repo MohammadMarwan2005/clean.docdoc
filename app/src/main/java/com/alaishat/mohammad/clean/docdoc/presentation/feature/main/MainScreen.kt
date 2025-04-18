@@ -8,7 +8,6 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -21,17 +20,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
+import androidx.navigation.toRoute
 import com.alaishat.mohammad.clean.docdoc.R
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.all_specs.AllSpecsScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.appointments.AllAppointmentsScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.login.LoginScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.register.RegisterScreen
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.doctor_details.DoctorDetailsScreen
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.doctor_details.DoctorDetailsViewModel
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.home.HomeScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.onboarding.OnboardingScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.profile.ProfileScreen
@@ -161,6 +165,8 @@ fun MainScreen(
                         LogDrawing(it)
                         HomeScreen(navigateToSearch = {
                             navController.navigateToRoute(NavigationRoute.SearchRoute)
+                        }, navigateToDoctor = { doctorId ->
+                            navController.navigateToRoute(NavigationRoute.DoctorDetailsRoute(doctorId))
                         })
                     }
                     composable<NavigationRoute.SpecializationsRoute> {
@@ -169,7 +175,10 @@ fun MainScreen(
                         AllSpecsScreen(
                             onNavigateUp = {
                                 navController.navigateUp()
-                            }
+                            },
+                            navigateToDoctorDetails = { doctorId ->
+                                navController.navigate(NavigationRoute.DoctorDetailsRoute(doctorId))
+                            },
                         )
                     }
                     composable<NavigationRoute.SearchRoute> {
@@ -189,6 +198,30 @@ fun MainScreen(
                         }, onBack = {
                             navController.navigateUp()
                         })
+                    }
+                    composable<NavigationRoute.DoctorDetailsRoute>(
+                        deepLinks = listOf(
+                            navDeepLink<NavigationRoute.DoctorDetailsRoute>(
+                                basePath = NavigationRoute.APP_DOMAIN_URL
+                            )
+                        ),
+                    ) {
+                        val doctorDetailsRoute =
+                            it.toRoute<NavigationRoute.DoctorDetailsRoute>()
+                        changeShowBottomAppBar(doctorDetailsRoute)
+                        val doctorDetailsViewModel: DoctorDetailsViewModel = hiltViewModel()
+                        doctorDetailsViewModel.savedStateHandle[DoctorDetailsViewModel.DOCTOR_ID_KEY] =
+                            doctorDetailsRoute.doctorId
+
+                        DoctorDetailsScreen(
+                            doctorDetailsViewModel = doctorDetailsViewModel,
+                            onNavigateUp = {
+                                navController.navigateUp()
+                            },
+                            navigateToScheduleAppointment = {
+                                // todo
+                            }
+                        )
                     }
                 }
             }

@@ -7,6 +7,7 @@ import com.alaishat.mohammad.clean.docdoc.presentation.feature.all_specs.AllSpec
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.appointments.AllAppointmentsUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.AuthEvent
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.AuthUIState
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.doctor_details.DoctorDetailsUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.home.HomeUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.main.MainUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.onboarding.OnboardingEvent
@@ -48,6 +49,10 @@ object PresentationModule {
     @Provides
     @Singleton
     fun provideAllSpecsUIState(): StateDelegate<AllSpecsUIState> = StateDelegate()
+
+    @Provides
+    @Singleton
+    fun provideDoctorDetailsUIState(): StateDelegate<DoctorDetailsUIState> = StateDelegate()
 
     @Provides
     @Singleton

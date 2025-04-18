@@ -18,6 +18,17 @@ class DoctorsRepoImpl(
     private val safeAPICaller: SafeAPICaller,
     private val apiService: APIService
 ) : DoctorsRepo {
+    override suspend fun getDoctorById(id: Int): Resource<Doctor> {
+        return safeAPICaller.invoke<APISuccess<DoctorD>, Doctor>(
+            apiCall = {
+                apiService.getDoctorById(id)
+            },
+            dataToDomain = {
+                it.responseData.toDomain()
+            }
+        )
+    }
+
     override suspend fun getRecommendedDoctors(): Resource<Map<Specialization, List<Doctor>>> {
         return safeAPICaller.invoke<HomeResponse, Map<Specialization, List<Doctor>>>(
             apiCall = {

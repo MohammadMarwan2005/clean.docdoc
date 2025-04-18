@@ -1,5 +1,7 @@
 package com.alaishat.mohammad.clean.docdoc.domain.model.core
 
+import java.time.LocalDateTime
+
 /**
  * Created by Mohammad Al-Aishat on Apr/09/2025.
  * Clean DocDoc Project.
@@ -17,6 +19,6 @@ data class Doctor(
     val phone: String,
     val photo: String,
     val specialization: Specialization,
-    val endTime: String, // todo: use localDateTime
-    val startTime: String // todo: use localDateTime
+    val endTime: LocalDateTime,
+    val startTime: LocalDateTime
 )

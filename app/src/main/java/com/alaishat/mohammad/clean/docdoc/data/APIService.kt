@@ -13,6 +13,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
@@ -48,5 +49,10 @@ interface APIService {
         @Query("specialization") specializationId: Int?,
         @Query("city") cityId: Int? = null
     ): Response<APISuccess<List<DoctorD>>>
+
+    @GET("doctor/show/{id}")
+    suspend fun getDoctorById(
+        @Path("id") id: Int
+    ): Response<APISuccess<DoctorD>>
 
 }

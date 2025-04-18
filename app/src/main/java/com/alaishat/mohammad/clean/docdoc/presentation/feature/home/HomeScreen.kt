@@ -60,7 +60,8 @@ import com.alaishat.mohammad.clean.docdoc.presentation.theme.Seed
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
-    navigateToSearch: () -> Unit
+    navigateToSearch: () -> Unit,
+    navigateToDoctor: (Int) -> Unit
 ) {
 
     val state by homeViewModel.state.collectAsStateWithLifecycle()
@@ -131,7 +132,7 @@ fun HomeScreen(
                         }
 
                         recommendedCategorizedDoctors(
-                            navigateToDoctor = { /* TODO */ },
+                            navigateToDoctor = navigateToDoctor,
                             data = successState.recommendations
                         )
                     }

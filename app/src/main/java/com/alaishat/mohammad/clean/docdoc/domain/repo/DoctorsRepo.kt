@@ -10,6 +10,7 @@ import com.alaishat.mohammad.clean.docdoc.domain.model.core.Specialization
  */
 interface DoctorsRepo {
     suspend fun getRecommendedDoctors(): Resource<Map<Specialization, List<Doctor>>>
+    suspend fun getDoctorById(id: Int): Resource<Doctor>
     suspend fun getFilteredDoctorsBySpecializationId(
         specializationId: Int,
     ): Resource<List<Doctor>>

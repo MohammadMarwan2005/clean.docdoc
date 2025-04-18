@@ -57,7 +57,8 @@ import kotlinx.coroutines.awaitAll
 @Composable
 fun AllSpecsScreen(
     allSpecsViewModel: AllSpecsViewModel = hiltViewModel(),
-    onNavigateUp: () -> Unit
+    onNavigateUp: () -> Unit,
+    navigateToDoctorDetails: (doctorId: Int) -> Unit,
 ) {
     val uiState by allSpecsViewModel.state.collectAsStateWithLifecycle()
 
@@ -158,9 +159,7 @@ fun AllSpecsScreen(
                                     is DoctorsUIState.Success -> {
                                         recommendedDoctorRow(
                                             doctorsData = doctorsState.doctors,
-                                            onClick = {
-                                                // todo: navigate to DoctorDetailsScreen
-                                            }
+                                            onClick = navigateToDoctorDetails
                                         )
                                     }
                                 }
