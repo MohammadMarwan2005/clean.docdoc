@@ -52,4 +52,15 @@ class DoctorsRepoImpl(
             }
         )
     }
+
+    override suspend fun searchForDoctors(query: String): Resource<List<Doctor>> {
+        return safeAPICaller.invoke<APISuccess<List<DoctorD>>, List<Doctor>>(
+            apiCall = {
+                apiService.searchForDoctors(query)
+            },
+            dataToDomain = {
+                it.responseData.map { it.toDomain() }
+            }
+        )
+    }
 }

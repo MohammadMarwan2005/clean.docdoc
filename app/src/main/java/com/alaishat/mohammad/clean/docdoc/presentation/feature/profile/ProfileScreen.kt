@@ -43,6 +43,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alaishat.mohammad.clean.docdoc.R
 import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.DocdocTopAppBar
 import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.ErrorComposable
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.main.LoadingScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.theme.CleanDocdocTheme
 import com.alaishat.mohammad.clean.docdoc.presentation.theme.Gray
 import com.alaishat.mohammad.clean.docdoc.presentation.theme.Seed
@@ -70,8 +71,9 @@ fun ProfileScreen(
     }
 
     when (state) {
-        ProfileUIState.Loading -> CircularProgressIndicator()
+        ProfileUIState.Loading -> LoadingScreen()
         is ProfileUIState.Error -> ErrorComposable(
+            modifier = Modifier.fillMaxSize(),
             error = (state as ProfileUIState.Error).error,
             onTryAgain = {
                 profileViewModel.fetchProfile()
@@ -90,7 +92,6 @@ fun ProfileScreen(
             )
         }
     }
-
 }
 
 

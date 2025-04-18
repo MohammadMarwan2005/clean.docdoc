@@ -14,4 +14,6 @@ interface DoctorsRepo {
     suspend fun getFilteredDoctorsBySpecializationId(
         specializationId: Int,
     ): Resource<List<Doctor>>
+
+    suspend fun searchForDoctors(query: String): Resource<List<Doctor>>
 }

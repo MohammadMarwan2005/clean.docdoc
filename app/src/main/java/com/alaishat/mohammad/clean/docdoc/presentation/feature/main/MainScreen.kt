@@ -42,6 +42,7 @@ import com.alaishat.mohammad.clean.docdoc.presentation.feature.doctor_details.Do
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.home.HomeScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.onboarding.OnboardingScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.profile.ProfileScreen
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.search.SearchScreen
 import com.alaishat.mohammad.clean.docdoc.presentation.navigation.NavigationRoute
 import com.alaishat.mohammad.clean.docdoc.presentation.navigation.getAuthSharedViewModel
 import com.alaishat.mohammad.clean.docdoc.presentation.navigation.navigateFromLoginToRegister
@@ -193,8 +194,15 @@ fun MainScreen(
                         )
                     }
                     composable<NavigationRoute.SearchRoute> {
-
                         changeShowBottomAppBar(NavigationRoute.SearchRoute)
+                        SearchScreen(
+                            navigateToDoctor = {
+                                navController.navigateToRoute(NavigationRoute.DoctorDetailsRoute(it))
+                            },
+                            onNavigateUp = {
+                                navController.navigateUp()
+                            }
+                        )
                     }
                     composable<NavigationRoute.AppointmentsRoute> {
                         changeShowBottomAppBar(NavigationRoute.AppointmentsRoute)

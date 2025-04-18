@@ -10,7 +10,6 @@ import com.alaishat.mohammad.clean.docdoc.data.model.RegisterRequest
 import com.alaishat.mohammad.clean.docdoc.data.model.core.AppointmentD
 import com.alaishat.mohammad.clean.docdoc.data.model.core.DoctorD
 import com.alaishat.mohammad.clean.docdoc.data.model.core.SpecializationD
-import com.alaishat.mohammad.clean.docdoc.domain.model.core.Appointment
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -61,4 +60,10 @@ interface APIService {
     suspend fun bookAppointment(
         @Body bookAppointmentRequest: BookAppointmentRequest
     ): Response<APISuccess<AppointmentD>>
+
+    @GET("doctor/doctor-search")
+    suspend fun searchForDoctors(
+        @Query("name") query: String
+    ): Response<APISuccess<List<DoctorD>>>
+
 }

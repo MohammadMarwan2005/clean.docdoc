@@ -16,6 +16,7 @@ import com.alaishat.mohammad.clean.docdoc.presentation.feature.main.MainUIState
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.onboarding.OnboardingEvent
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.profile.ProfileEvent
 import com.alaishat.mohammad.clean.docdoc.presentation.feature.profile.ProfileUIState
+import com.alaishat.mohammad.clean.docdoc.presentation.feature.search.SearchUIState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -60,6 +61,10 @@ object PresentationModule {
     @Provides
     @Singleton
     fun provideBookAppointmentUIState(): StateDelegate<BookAppointmentUIState> = StateDelegate()
+
+    @Provides
+    @Singleton
+    fun provideSearchUIState(): StateDelegate<SearchUIState> = StateDelegate()
 
     @Provides
     @Singleton

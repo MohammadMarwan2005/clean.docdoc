@@ -91,4 +91,7 @@
     <string name="the_selected_specialization_is_invalid">The selected specialization is invalid!</string>
     <string name="share_doctor_link">Share Doctor Link</string>
     <string name="invalid_date_or_time">Invalid Date or Time</string>
+    <string name="search_for_doctors">Search for doctors!</string>
+    <string name="results_found">%1$s results found</string>
+    <string name="search_dot">Search...</string>
 </resources>
