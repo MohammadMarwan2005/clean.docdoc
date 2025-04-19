@@ -10,7 +10,7 @@ import kotlin.reflect.full.primaryConstructor
  * Clean DocDoc Project.
  */
 @Serializable
-sealed class NavigationRoute(val hasBottomNavBar: Boolean = false) {
+sealed class NavigationRoute(val hasBottomNavBar: Boolean = false, val isProtected: Boolean = false) {
 
     companion object {
         private const val APP_DOMAIN_URL = "https://docdoc.com"
@@ -65,13 +65,13 @@ sealed class NavigationRoute(val hasBottomNavBar: Boolean = false) {
     data object SearchRoute : NavigationRoute(hasBottomNavBar = true)
 
     @Serializable
-    data object AppointmentsRoute : NavigationRoute(hasBottomNavBar = true)
+    data object AppointmentsRoute : NavigationRoute(hasBottomNavBar = true, isProtected = true)
 
     @Serializable
-    data object ProfileRoute : NavigationRoute(hasBottomNavBar = true)
+    data object ProfileRoute : NavigationRoute(hasBottomNavBar = true, isProtected = true)
 
     @Serializable
-    data object LoginRoute : NavigationRoute()
+    data class LoginRoute(val isRedirected: Boolean = false) : NavigationRoute()
 
     @Serializable
     data object RegisterRoute : NavigationRoute()
@@ -86,9 +86,9 @@ sealed class NavigationRoute(val hasBottomNavBar: Boolean = false) {
     data class DoctorDetailsRoute(val doctorId: Int) : NavigationRoute()
 
     @Serializable
-    data class BookAppointmentRoute(val doctorId: Int) : NavigationRoute()
+    data class BookAppointmentRoute(val doctorId: Int) : NavigationRoute(isProtected = true)
 
     @Serializable
-    data class AppointmentInfoRoute(val appointmentId: Int, val isJustBooked: Boolean = false) : NavigationRoute()
+    data class AppointmentInfoRoute(val appointmentId: Int, val isJustBooked: Boolean = false) : NavigationRoute(isProtected = true)
 
 }

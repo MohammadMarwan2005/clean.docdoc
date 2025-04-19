@@ -2,12 +2,12 @@ package com.alaishat.mohammad.clean.docdoc.data.repo
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
-import com.alaishat.mohammad.clean.docdoc.domain.repo.UserLocalDataRepo
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import com.alaishat.mohammad.clean.docdoc.domain.repo.UserLocalDataRepo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
@@ -31,6 +31,12 @@ class UserLocalDataRepoImpl(
     override suspend fun getTokenAsString(): String? {
         return getSavedString(ACCESS_TOKEN_KEY)
     }
+
+    override suspend fun hasToken(): Boolean {
+        val token: String? = getSavedString(ACCESS_TOKEN_KEY)
+        return token != null
+    }
+
 
     override suspend fun saveUsername(username: String) {
         saveString(username, USERNAME_KEY)

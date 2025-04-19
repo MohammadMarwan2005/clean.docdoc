@@ -38,14 +38,14 @@ import com.alaishat.mohammad.clean.docdoc.presentation.common.reusable.DocdocTit
 @Composable
 fun OnboardingScreen(
     onboardingViewModel: OnboardingViewModel = hiltViewModel(),
-    navigateToRegister: () -> Unit
+    navigateToHome: () -> Unit
 ) {
 
     val scrollState = rememberScrollState()
     LaunchedEffect(Unit) {
         onboardingViewModel.viewEvent.collect {
             when (it) {
-                OnboardingEvent.NavigateToRegister -> navigateToRegister()
+                OnboardingEvent.NavigateToRegister -> navigateToHome()
             }
         }
     }

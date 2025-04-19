@@ -35,6 +35,8 @@ class AuthViewModel @Inject constructor(
 ) : ViewModel(), StateViewModel<AuthUIState> by stateDelegate,
     EventViewModel<AuthEvent> by eventDelegate {
 
+    var isRedirected: Boolean = false
+
     init {
         stateDelegate.setDefaultState(AuthUIState.Initial)
     }

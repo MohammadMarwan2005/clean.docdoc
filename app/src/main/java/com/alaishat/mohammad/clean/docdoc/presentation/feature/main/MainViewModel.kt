@@ -2,6 +2,7 @@ package com.alaishat.mohammad.clean.docdoc.presentation.feature.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alaishat.mohammad.clean.docdoc.domain.repo.AuthenticationCredentialsRepo
 import com.alaishat.mohammad.clean.docdoc.domain.repo.UserLocalDataRepo
 import com.alaishat.mohammad.clean.docdoc.presentation.common.StateDelegate
 import com.alaishat.mohammad.clean.docdoc.presentation.common.StateViewModel
@@ -18,8 +19,12 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val userLocalDataRepo: UserLocalDataRepo,
-    private val stateDelegate: StateDelegate<MainUIState>
+    private val authenticationCredentialsRepo: AuthenticationCredentialsRepo,
+    private val stateDelegate: StateDelegate<MainUIState>,
 ) : ViewModel(), StateViewModel<MainUIState> by stateDelegate {
+
+    val isLoggedInFlow = authenticationCredentialsRepo
+        .isLoggedInFlow()
 
     init {
         stateDelegate.setDefaultState(MainUIState.Loading)
@@ -30,8 +35,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             val hasOnboarded: Boolean? = userLocalDataRepo.getHasOnboarded()
             if (hasOnboarded == true) {
-                val savedToken: String? = userLocalDataRepo.getTokenAsString()
-                if (savedToken != null) {
+                if (true) {
                     // go to Home
                     stateDelegate.updateState {
                         MainUIState.Success(
@@ -44,7 +48,7 @@ class MainViewModel @Inject constructor(
                     stateDelegate.updateState {
                         MainUIState.Success(
                             wholeGraphFirstRoute = NavigationRoute.AuthRoute,
-                            authGraphFirstRoute = NavigationRoute.LoginRoute
+                            authGraphFirstRoute = NavigationRoute.LoginRoute()
                         )
                     }
                 }
