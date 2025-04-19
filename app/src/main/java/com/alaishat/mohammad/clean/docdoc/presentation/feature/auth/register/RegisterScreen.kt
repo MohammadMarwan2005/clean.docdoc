@@ -122,7 +122,7 @@ fun RegisterScreen(
                         authViewModel.password.copy(text = it, errorMessageId = null)
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                visualTransformation = if (authViewModel.showPassword) PasswordVisualTransformation() else VisualTransformation.None,
+                visualTransformation = if (!authViewModel.showPassword) PasswordVisualTransformation() else VisualTransformation.None,
                 label = { Text(text = stringResource(R.string.password)) },
                 isError = !authViewModel.password.isValid,
                 trailingIcon = {
@@ -146,7 +146,7 @@ fun RegisterScreen(
                         authViewModel.passwordConfirmation.copy(text = it, errorMessageId = null)
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                visualTransformation = if (authViewModel.showPasswordConfirm) PasswordVisualTransformation() else VisualTransformation.None,
+                visualTransformation = if (!authViewModel.showPasswordConfirm) PasswordVisualTransformation() else VisualTransformation.None,
                 label = { Text(text = stringResource(R.string.confirm_password)) },
                 isError = !authViewModel.passwordConfirmation.isValid,
                 trailingIcon = {

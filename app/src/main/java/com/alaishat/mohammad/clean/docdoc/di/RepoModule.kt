@@ -5,11 +5,13 @@ import com.alaishat.mohammad.clean.docdoc.data.APIService
 import com.alaishat.mohammad.clean.docdoc.data.SafeAPICaller
 import com.alaishat.mohammad.clean.docdoc.data.repo.AppointmentsRepoImpl
 import com.alaishat.mohammad.clean.docdoc.data.repo.AuthRepoImpl
+import com.alaishat.mohammad.clean.docdoc.data.repo.AuthenticationCredentialsRepoImpl
 import com.alaishat.mohammad.clean.docdoc.data.repo.DoctorsRepoImpl
 import com.alaishat.mohammad.clean.docdoc.data.repo.SpecializationsRepoImpl
 import com.alaishat.mohammad.clean.docdoc.data.repo.UserLocalDataRepoImpl
 import com.alaishat.mohammad.clean.docdoc.domain.repo.AppointmentsRepo
 import com.alaishat.mohammad.clean.docdoc.domain.repo.AuthRepo
+import com.alaishat.mohammad.clean.docdoc.domain.repo.AuthenticationCredentialsRepo
 import com.alaishat.mohammad.clean.docdoc.domain.repo.DoctorsRepo
 import com.alaishat.mohammad.clean.docdoc.domain.repo.SpecializationsRepo
 import com.alaishat.mohammad.clean.docdoc.domain.repo.UserLocalDataRepo
@@ -18,6 +20,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
 import javax.inject.Singleton
 
 /**
@@ -80,6 +83,20 @@ object RepoModule {
         return SpecializationsRepoImpl(
             safeAPICaller = safeAPICaller,
             apiService = apiService
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthenticationCredentialsRepo(
+        userLocalDataRepo: UserLocalDataRepo,
+        authRepo: AuthRepo,
+        coroutineScope: CoroutineScope,
+    ): AuthenticationCredentialsRepo {
+        return AuthenticationCredentialsRepoImpl(
+            userLocalDataRepo = userLocalDataRepo,
+            authRepo = authRepo,
+            coroutineScope = coroutineScope
         )
     }
 }

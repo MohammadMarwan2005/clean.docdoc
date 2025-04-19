@@ -12,8 +12,10 @@ import com.alaishat.mohammad.clean.docdoc.presentation.feature.auth.AuthViewMode
  * Created by Mohammad Al-Aishat on Apr/12/2025.
  * Clean DocDoc Project.
  */
-fun NavHostController.pushReplacement(route: NavigationRoute) {
-    navigateToRoute(route) {
+fun NavHostController.pushReplacement(
+    route: NavigationRoute, isLoggedIn: Boolean,
+    ) {
+    navigateToRoute(route = route, isLoggedIn = isLoggedIn) {
         popUpTo(graph.startDestinationId) {
             inclusive = true
         }
@@ -21,8 +23,10 @@ fun NavHostController.pushReplacement(route: NavigationRoute) {
     }
 }
 
-fun NavHostController.navigateFromRegisterToLogin() {
-    navigateToRoute(NavigationRoute.LoginRoute) {
+fun NavHostController.navigateFromRegisterToLogin(
+    isLoggedIn: Boolean,
+) {
+    navigateToRoute(route = NavigationRoute.LoginRoute(), isLoggedIn = isLoggedIn) {
         popUpTo(NavigationRoute.LoginRoute) {
             inclusive = true
         }
@@ -30,8 +34,10 @@ fun NavHostController.navigateFromRegisterToLogin() {
     }
 }
 
-fun NavHostController.navigateFromLoginToRegister() {
-    navigateToRoute(NavigationRoute.RegisterRoute) {
+fun NavHostController.navigateFromLoginToRegister(
+    isLoggedIn: Boolean,
+) {
+    navigateToRoute(route = NavigationRoute.RegisterRoute, isLoggedIn = isLoggedIn) {
         popUpTo(NavigationRoute.RegisterRoute) {
             inclusive = true
         }
@@ -41,10 +47,14 @@ fun NavHostController.navigateFromLoginToRegister() {
 
 fun NavHostController.navigateToRoute(
     route: NavigationRoute,
+    isLoggedIn: Boolean,
     builder: (NavOptionsBuilder.() -> Unit)? = null
 ) {
-    // todo: create a middleware here for Guest Mode...
-    // just check on a isLoggedInFlow, if (isLoggedIn.not() && route.isProtected) redirect to login screen else complete...
+    val isProtected = route.isProtected
+    if (isProtected && !isLoggedIn) {
+        navigate(NavigationRoute.LoginRoute(isRedirected = true))
+        return
+    }
     builder?.let {
         navigate(route = route, builder = it)
     } ?: navigate(route = route)

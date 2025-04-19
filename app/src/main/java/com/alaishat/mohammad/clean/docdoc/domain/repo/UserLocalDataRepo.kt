@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface UserLocalDataRepo {
     fun getTokenFlow(): Flow<String?>
     suspend fun getTokenAsString(): String?
+    suspend fun hasToken(): Boolean
     suspend fun saveToken(token: String)
     suspend fun setOnboarded()
     suspend fun getHasOnboarded(): Boolean?

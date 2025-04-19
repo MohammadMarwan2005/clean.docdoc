@@ -19,7 +19,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -73,6 +76,16 @@ fun MainScreen(
 //            NavigationRoute.fromRoute(currentRoute)?.hasBottomNavBar == true
 //        } == true
 
+    val lifecycleOwner = LocalLifecycleOwner.current
+    var isLoggedIn by rememberSaveable { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            mainViewModel.isLoggedInFlow.collect {
+                isLoggedIn = it
+            }
+        }
+    }
+
     val currentRoute = backStackState.value?.destination?.route?.let(NavigationRoute::fromRoute)
 
     val selectedIndex = items.indexOfFirst { it.route == currentRoute }
@@ -95,7 +108,10 @@ fun MainScreen(
                             contentColor = Color.White,
                             containerColor = if (isSearchSelected) DarkSeed else Seed,
                             onClick = {
-                                navController.navigateToRoute(NavigationRoute.SearchRoute) {
+                                navController.navigateToRoute(
+                                    route = NavigationRoute.SearchRoute,
+                                    isLoggedIn = isLoggedIn
+                                ) {
                                     launchSingleTop = true
                                 }
                             }) {
@@ -113,7 +129,10 @@ fun MainScreen(
                             selectedItemIndex = selectedIndex,
                             navItems = items,
                             onItemSelected = {
-                                navController.navigateToRoute(it) {
+                                navController.navigateToRoute(
+                                    route = it,
+                                    isLoggedIn = isLoggedIn
+                                ) {
                                     launchSingleTop = true
                                 }
                             }
@@ -130,15 +149,18 @@ fun MainScreen(
                         startDestination = (state as MainUIState.Success).authGraphFirstRoute
                     ) {
                         composable<NavigationRoute.LoginRoute> {
-                            changeShowBottomAppBar(NavigationRoute.LoginRoute)
+                            changeShowBottomAppBar(it.toRoute<NavigationRoute.LoginRoute>())
                             LogDrawing(it)
                             LoginScreen(
-                                authViewModel = navController.getAuthSharedViewModel(it),
+                                authViewModel = navController.getAuthSharedViewModel(it).apply { isRedirected = it.toRoute<NavigationRoute.LoginRoute>().isRedirected },
                                 navigateToHome = {
-                                    navController.pushReplacement(NavigationRoute.HomeRoute)
+                                    navController.pushReplacement(
+                                        route = NavigationRoute.HomeRoute,
+                                        isLoggedIn = isLoggedIn
+                                    )
                                 },
                                 navigateToRegister = {
-                                    navController.navigateFromLoginToRegister()
+                                    navController.navigateFromLoginToRegister(isLoggedIn = isLoggedIn)
                                 }
                             )
                         }
@@ -148,10 +170,13 @@ fun MainScreen(
                             RegisterScreen(
                                 authViewModel = navController.getAuthSharedViewModel(it),
                                 navigateToHome = {
-                                    navController.pushReplacement(NavigationRoute.HomeRoute)
+                                    navController.pushReplacement(
+                                        route = NavigationRoute.HomeRoute,
+                                        isLoggedIn = isLoggedIn
+                                    )
                                 },
                                 navigateToLogin = {
-                                    navController.navigateFromRegisterToLogin()
+                                    navController.navigateFromRegisterToLogin(isLoggedIn = isLoggedIn)
                                 }
                             )
                         }
@@ -159,8 +184,11 @@ fun MainScreen(
                     composable<NavigationRoute.OnboardingRoute> {
                         changeShowBottomAppBar(NavigationRoute.OnboardingRoute)
                         OnboardingScreen(
-                            navigateToRegister = {
-                                navController.navigateToRoute(NavigationRoute.RegisterRoute)
+                            navigateToHome = {
+                                navController.navigateToRoute(
+                                    route = NavigationRoute.HomeRoute,
+                                    isLoggedIn = isLoggedIn
+                                )
                             }
                         )
                     }
@@ -168,12 +196,16 @@ fun MainScreen(
                         changeShowBottomAppBar(NavigationRoute.HomeRoute)
                         LogDrawing(it)
                         HomeScreen(navigateToSearch = {
-                            navController.navigateToRoute(NavigationRoute.SearchRoute)
+                            navController.navigateToRoute(
+                                route = NavigationRoute.SearchRoute,
+                                isLoggedIn = isLoggedIn
+                            )
                         }, navigateToDoctor = { doctorId ->
                             navController.navigateToRoute(
-                                NavigationRoute.DoctorDetailsRoute(
+                                route = NavigationRoute.DoctorDetailsRoute(
                                     doctorId
-                                )
+                                ),
+                                isLoggedIn = isLoggedIn
                             )
                         })
                     }
@@ -186,9 +218,10 @@ fun MainScreen(
                             },
                             navigateToDoctorDetails = { doctorId ->
                                 navController.navigateToRoute(
-                                    NavigationRoute.DoctorDetailsRoute(
+                                    route = NavigationRoute.DoctorDetailsRoute(
                                         doctorId
-                                    )
+                                    ),
+                                    isLoggedIn = isLoggedIn
                                 )
                             },
                         )
@@ -197,7 +230,10 @@ fun MainScreen(
                         changeShowBottomAppBar(NavigationRoute.SearchRoute)
                         SearchScreen(
                             navigateToDoctor = {
-                                navController.navigateToRoute(NavigationRoute.DoctorDetailsRoute(it))
+                                navController.navigateToRoute(
+                                    route = NavigationRoute.DoctorDetailsRoute(it),
+                                    isLoggedIn = isLoggedIn
+                                )
                             },
                             onNavigateUp = {
                                 navController.navigateUp()
@@ -210,9 +246,10 @@ fun MainScreen(
                             navController.navigateUp()
                         }, navigateToAppointmentDetailsScreen = { appointmentId ->
                             navController.navigateToRoute(
-                                NavigationRoute.AppointmentInfoRoute(
+                                route = NavigationRoute.AppointmentInfoRoute(
                                     appointmentId
-                                )
+                                ),
+                                isLoggedIn = isLoggedIn
                             )
                         }
                         )
@@ -220,7 +257,10 @@ fun MainScreen(
                     composable<NavigationRoute.ProfileRoute> {
                         changeShowBottomAppBar(NavigationRoute.ProfileRoute)
                         ProfileScreen(onLogout = {
-                            navController.pushReplacement(NavigationRoute.LoginRoute)
+                            navController.pushReplacement(
+                                route = NavigationRoute.LoginRoute(),
+                                isLoggedIn = isLoggedIn
+                            )
                         }, onBack = {
                             navController.navigateUp()
                         })
@@ -246,9 +286,10 @@ fun MainScreen(
                             },
                             navigateToScheduleAppointment = { doctorId ->
                                 navController.navigateToRoute(
-                                    NavigationRoute.BookAppointmentRoute(
+                                    route = NavigationRoute.BookAppointmentRoute(
                                         doctorId
-                                    )
+                                    ),
+                                    isLoggedIn = isLoggedIn
                                 )
                             }
                         )
@@ -272,10 +313,11 @@ fun MainScreen(
                                     inclusive = false
                                 )
                                 navController.navigateToRoute(
-                                    NavigationRoute.AppointmentInfoRoute(
+                                    route = NavigationRoute.AppointmentInfoRoute(
                                         appointmentId = appointmentId,
                                         isJustBooked = true
-                                    )
+                                    ),
+                                    isLoggedIn = isLoggedIn
                                 )
                             }
                         )
@@ -304,9 +346,10 @@ fun MainScreen(
                             },
                             navigateToDoctorDetailsScreen = { doctorId ->
                                 navController.navigateToRoute(
-                                    NavigationRoute.DoctorDetailsRoute(
+                                    route = NavigationRoute.DoctorDetailsRoute(
                                         doctorId
-                                    )
+                                    ),
+                                    isLoggedIn = isLoggedIn
                                 )
                             }
                         )

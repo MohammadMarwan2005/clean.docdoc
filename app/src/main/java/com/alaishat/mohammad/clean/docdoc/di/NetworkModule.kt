@@ -12,6 +12,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -72,14 +75,16 @@ object NetworkModule {
     fun provideRequestInterceptor(
         userLocalDataRepo: UserLocalDataRepo,
     ): RequestInterceptor {
-        return RequestInterceptor(userLocalDataRepo = userLocalDataRepo)
+        return RequestInterceptor(
+            userLocalDataRepo = userLocalDataRepo,
+        )
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideApplicationScope(): CoroutineScope {
-//        return CoroutineScope(SupervisorJob() + Dispatchers.IO) // Keeps running until the app is destroyed
-//    }
+    @Provides
+    @Singleton
+    fun provideApplicationScope(): CoroutineScope {
+        return CoroutineScope(SupervisorJob() + Dispatchers.IO) // Keeps running until the app is destroyed
+    }
 
     @Provides
     @Singleton

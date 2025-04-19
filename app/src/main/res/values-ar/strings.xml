@@ -2,6 +2,8 @@
     <string name="app_name">Clean Docdoc</string>
     <string name="we_re_excited_to_have_you_back_can_t_wait_to_see_what_you_ve_been_up_to_since_you_last_logged_in">نحن متحمسون لعودتك، لا يمكننا الانتظار لمعرفة ما كنت تقوم به منذ آخر مرة قمت بتسجيل الدخول.</string>
     <string name="welcome_back">مرحبًا بعودتك</string>
+    <string name="please_login_to_continue">يرجى تسجيل الدخول للمتابعة والوصول إلى جميع الميزات.</string>
+    <string name="login_first">سجّل الدخول أولاً</string>
     <string name="forget_password">هل نسيت كلمة المرور؟</string>
     <string name="remember_me">تذكرني</string>
     <string name="manage_and_schedule_all_of_your_medical_appointments_easily_with_docdoc_to_get_a_new_experience">قم بإدارة وجدولة جميع مواعيدك الطبية بسهولة مع دوك دوك للحصول على تجربة جديدة.</string>
@@ -66,7 +68,8 @@
     <string name="no_stay_logged_in">لا، ابقَ مسجل الدخول</string>
     <string name="logout">تسجيل الخروج</string>
     <string name="home">الرئيسية</string>
-    <string name="specializations">التخصصات</string><string name="appointments">الحجوزات</string>
+    <string name="specializations">التخصصات</string>
+    <string name="appointments">الحجوزات</string>
     <string name="my_profile">ملفي</string>
     <string name="wrong_credentials">بيانات الدخول غير صحيحة</string>
     <string name="name_cannot_be_empty">الاسم لا يمكن أن يكون فارغًا</string>
@@ -90,4 +93,7 @@
     <string name="server_error">خطأ في الخادم!</string>
     <string name="not_found">المورد غير موجود!</string>
     <string name="unknown_error">خطأ غير معروف!</string>
+    <string name="search_for_doctors">ابحث عن الأطباء!</string>
+    <string name="results_found">تم العثور على %1$s نتيجة</string>
+    <string name="search_dot">ابحث…</string>
 </resources>

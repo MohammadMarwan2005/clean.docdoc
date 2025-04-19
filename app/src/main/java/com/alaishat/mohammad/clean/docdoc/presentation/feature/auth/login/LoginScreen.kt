@@ -75,8 +75,8 @@ fun LoginScreen(
         ) {
             Spacer(modifier = Modifier.height(32.dp))
             WelcomeText(
-                title = stringResource(R.string.welcome_back),
-                body = stringResource(R.string.we_re_excited_to_have_you_back_can_t_wait_to_see_what_you_ve_been_up_to_since_you_last_logged_in)
+                title = stringResource((if (authViewModel.isRedirected) R.string.login_first else R.string.welcome_back)),
+                body = stringResource(if (authViewModel.isRedirected) R.string.please_login_to_continue else R.string.we_re_excited_to_have_you_back_can_t_wait_to_see_what_you_ve_been_up_to_since_you_last_logged_in)
             )
             DocdocTextField(
                 modifier = Modifier.fillMaxWidth(),

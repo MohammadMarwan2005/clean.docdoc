@@ -8,7 +8,9 @@
     <string name="not_found">Resource Not Found!</string>
     <string name="unknown_error">Unknown Error!</string>
     <string name="we_re_excited_to_have_you_back_can_t_wait_to_see_what_you_ve_been_up_to_since_you_last_logged_in">We\'re excited to have you back, can\'t wait to see what you\'ve been up to since you last logged in.</string>
+    <string name="please_login_to_continue">Please log in to continue and access all features.</string>
     <string name="welcome_back">Welcome Back</string>
+    <string name="login_first">Login First</string>
     <string name="forget_password">Forget Password?</string>
     <string name="remember_me">Remember Me</string>
     <string name="manage_and_schedule_all_of_your_medical_appointments_easily_with_docdoc_to_get_a_new_experience">Manage and schedule all of your medical appointments easily with Docdoc to get a new experience.</string>
@@ -93,5 +95,5 @@
     <string name="invalid_date_or_time">Invalid Date or Time</string>
     <string name="search_for_doctors">Search for doctors!</string>
     <string name="results_found">%1$s results found</string>
-    <string name="search_dot">Search...</string>
+    <string name="search_dot">Search…</string>
 </resources>
