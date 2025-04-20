@@ -6,12 +6,14 @@ import com.alaishat.mohammad.clean.docdoc.data.SafeAPICaller
 import com.alaishat.mohammad.clean.docdoc.data.repo.AppointmentsRepoImpl
 import com.alaishat.mohammad.clean.docdoc.data.repo.AuthRepoImpl
 import com.alaishat.mohammad.clean.docdoc.data.repo.AuthenticationCredentialsRepoImpl
+import com.alaishat.mohammad.clean.docdoc.data.repo.CityRepoImpl
 import com.alaishat.mohammad.clean.docdoc.data.repo.DoctorsRepoImpl
 import com.alaishat.mohammad.clean.docdoc.data.repo.SpecializationsRepoImpl
 import com.alaishat.mohammad.clean.docdoc.data.repo.UserLocalDataRepoImpl
 import com.alaishat.mohammad.clean.docdoc.domain.repo.AppointmentsRepo
 import com.alaishat.mohammad.clean.docdoc.domain.repo.AuthRepo
 import com.alaishat.mohammad.clean.docdoc.domain.repo.AuthenticationCredentialsRepo
+import com.alaishat.mohammad.clean.docdoc.domain.repo.CityRepo
 import com.alaishat.mohammad.clean.docdoc.domain.repo.DoctorsRepo
 import com.alaishat.mohammad.clean.docdoc.domain.repo.SpecializationsRepo
 import com.alaishat.mohammad.clean.docdoc.domain.repo.UserLocalDataRepo
@@ -81,6 +83,18 @@ object RepoModule {
         apiService: APIService
     ): SpecializationsRepo {
         return SpecializationsRepoImpl(
+            safeAPICaller = safeAPICaller,
+            apiService = apiService
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideCityRepo(
+        safeAPICaller: SafeAPICaller,
+        apiService: APIService
+    ): CityRepo {
+        return CityRepoImpl(
             safeAPICaller = safeAPICaller,
             apiService = apiService
         )

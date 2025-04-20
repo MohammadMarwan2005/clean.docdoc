@@ -11,6 +11,7 @@ import com.alaishat.mohammad.clean.docdoc.presentation.common.StateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -25,7 +26,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel(), StateViewModel<HomeUIState> by stateDelegate {
 
     companion object {
-        private var isFirstTime = true
+        private var tryAgain = true
     }
 
     init {
@@ -36,11 +37,21 @@ class HomeViewModel @Inject constructor(
     fun fetchHomeData() {
         stateDelegate.updateState { HomeUIState.Loading }
         viewModelScope.launch {
-            if (AuthenticationCredentialsRepo.guestToken == null) delay(1000) // in the first time, the guest token is still null
+            if (AuthenticationCredentialsRepo.guestToken == null) {
+                Timber.d("lets delay a little bit")
+                delay(1000)
+            } // in the first time, the guest token is still null
             val response = doctorsRepo.getRecommendedDoctors()
             val username = userLocalDataRepo.getUsernameAsString()
             when (response) {
                 is Resource.Error -> {
+                    Timber.d("Error Occurred ${response.error}")
+                    if (tryAgain) {
+                        Timber.d("We will try again!")
+                        tryAgain = false
+                        fetchHomeData()
+                        return@launch
+                    }
                     stateDelegate.updateState { HomeUIState.Error(response.error) }
                 }
 
@@ -53,7 +64,7 @@ class HomeViewModel @Inject constructor(
                     }
                 }
             }
-            isFirstTime = false
+            tryAgain = false
         }
     }
 }

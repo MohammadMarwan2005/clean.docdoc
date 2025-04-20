@@ -78,7 +78,7 @@
     <string name="phone_cannot_be_empty">رقم الهاتف لا يمكن أن يكون فارغًا</string>
     <string name="phone_must_start_with_09_and_be_10_digits">رقم الهاتف يجب أن يبدأ بـ 09 ويتكون من 10 أرقام</string>
     <string name="enter_valid_input_please">يرجى إدخال بيانات صحيحة</string>
-    <string name="got_it">تم فهم ذلك!</string>
+    <string name="got_it">حسنا</string>
     <string name="the_selected_specialization_is_invalid">التخصص المحدد غير صالح!</string>
     <string name="share_doctor_link">مشاركة رابط الطبيب</string>
     <string name="invalid_date_or_time">تاريخ أو وقت غير صالح</string>
@@ -96,4 +96,6 @@
     <string name="search_for_doctors">ابحث عن الأطباء!</string>
     <string name="results_found">تم العثور على %1$s نتيجة</string>
     <string name="search_dot">ابحث…</string>
+    <string name="city">المدينة</string>
+    <string name="speciality">التخصص</string>
 </resources>

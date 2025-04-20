@@ -96,4 +96,6 @@
     <string name="search_for_doctors">Search for doctors!</string>
     <string name="results_found">%1$s results found</string>
     <string name="search_dot">Search…</string>
+    <string name="city">City</string>
+    <string name="speciality">Speciality</string>
 </resources>

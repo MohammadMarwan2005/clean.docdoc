@@ -8,6 +8,7 @@ import com.alaishat.mohammad.clean.docdoc.data.model.LoginRequest
 import com.alaishat.mohammad.clean.docdoc.data.model.ProfileDataD
 import com.alaishat.mohammad.clean.docdoc.data.model.RegisterRequest
 import com.alaishat.mohammad.clean.docdoc.data.model.core.AppointmentD
+import com.alaishat.mohammad.clean.docdoc.data.model.core.CityD
 import com.alaishat.mohammad.clean.docdoc.data.model.core.DoctorD
 import com.alaishat.mohammad.clean.docdoc.data.model.core.SpecializationD
 import retrofit2.Response
@@ -44,6 +45,9 @@ interface APIService {
 
     @GET("specialization/index")
     suspend fun getAllSpecializations(): Response<APISuccess<List<SpecializationD>>>
+
+    @GET("city/index")
+    suspend fun getAllCities(): Response<APISuccess<List<CityD>>>
 
     @GET("doctor/doctor-filter")
     suspend fun getFilteredDoctors(
