@@ -93,7 +93,7 @@ fun SearchScreen(
             Column(
                 Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.5f)
+                    .fillMaxHeight(0.4f)
                     .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.Start
@@ -177,7 +177,9 @@ fun SearchScreen(
                 }
 
                 SearchResultUIState.Loading -> {
-                    LoadingScreen()
+                    Box(modifier = Modifier.fillMaxWidth().fillMaxHeight(0.5f)) {
+                        LoadingScreen()
+                    }
                 }
 
                 is SearchResultUIState.Success -> {

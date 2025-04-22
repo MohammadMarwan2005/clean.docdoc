@@ -63,6 +63,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun fetchFilters() {
+        stateDelegate.updateState { it.copy(filtersUIState = SearchFilterUIState.Loading) }
         viewModelScope.launch {
             val specs = specializationsRepo.getAllSpecializations()
             val cities = cityRepo.getAllCities()

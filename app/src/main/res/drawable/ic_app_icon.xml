@@ -4,6 +4,9 @@
     android:viewportWidth="73"
     android:viewportHeight="74">
   <group>
+    <path
+        android:pathData="M0,0 H73 V74 H0 Z"
+        android:fillColor="#FAFCFC" />
     <clip-path
         android:pathData="M0,0.979h72.041v72.041h-72.041z"/>
     <path

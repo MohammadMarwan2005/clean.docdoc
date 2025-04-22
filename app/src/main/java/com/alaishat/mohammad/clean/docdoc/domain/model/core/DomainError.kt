@@ -27,14 +27,7 @@ sealed class DomainError(
 
         fun fromStatusCode(apiErrorAsDomainError: DomainError): DomainError {
             errorsWithCode.forEach {
-                if (it.statusCode == apiErrorAsDomainError.statusCode) {
-                    return CustomError(
-                        message = it.message,
-                        messageId = it.messageId,
-                        details = it.details ?: apiErrorAsDomainError.details,
-                        statusCode = it.statusCode
-                    )
-                }
+                if (it.statusCode == apiErrorAsDomainError.statusCode) return it
             }
             return apiErrorAsDomainError
         }
